@@ -52,7 +52,6 @@ class StoryViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    defaultContainerView()
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -91,7 +90,6 @@ class StoryViewController: UIViewController {
     collectionViewStories.contentInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     collectionViewStories.collectionViewLayout = layout
     collectionViewStories.alwaysBounceHorizontal = true
-    collectionViewStories.isPagingEnabled = true
     collectionViewStories.dataSource = self
     collectionViewStories.delegate = self
   }
@@ -126,10 +124,15 @@ class StoryViewController: UIViewController {
     let imageWithLines = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     
-    let data = StoryModel(id: UUID().uuidString,
-                          storyName: "Story \(storyPresenter.stories.count+1)", storyContent: imageWithLines?.pngData() ?? Data())
+    var newStory = StoryModel()
+    if let story = story {
+      newStory = StoryModel(id: story.id, storyName: story.storyName, storyContent: imageWithLines?.pngData() ?? Data())
+    } else {
+      newStory = StoryModel(id: UUID().uuidString,
+                            storyName: "Story \(storyPresenter.stories.count+1)", storyContent: imageWithLines?.pngData() ?? Data())
+    }
     
-    storyPresenter.saveStories(story: data) { state in
+    storyPresenter.saveStories(story: newStory) { state in
       print("isLoad \(state)")
     } completion: { [weak self] result in
       guard let self = self else { return }
@@ -144,6 +147,10 @@ class StoryViewController: UIViewController {
   }
   
   private func defaultContainerView() {
+    self.story = nil
+    imgBg.image = UIImage()
+    lblEditor.isHidden = false
+    btnApplyBg.isHidden = false
     vwContainer.backgroundColor = .systemPurple
   }
   
@@ -153,19 +160,19 @@ class StoryViewController: UIViewController {
   }
   
   private func removeContentDraw() {
-    vwContainer.subviews.forEach {
-      if $0 == self.drawView {
-        pinchPanRotateViewController.view.subviews.forEach { $0.removeFromSuperview() }
-        drawView.subviews.forEach { $0.removeFromSuperview() }
-        $0.removeFromSuperview()
-      }
+    for view in vwContainer.subviews where view == self.drawView {
+      pinchPanRotateViewController.view.subviews.forEach { $0.removeFromSuperview() }
+      drawView.subviews.forEach { $0.removeFromSuperview() }
+      view.removeFromSuperview()
     }
   }
   
   private func addContentDraw() {
-    pinchPanRotateViewController.view.frame = drawView.bounds
-    drawView.addSubview(pinchPanRotateViewController.view)
-    vwContainer.addSubview(drawView)
+    for view in vwContainer.subviews where view != self.drawView {
+      pinchPanRotateViewController.view.frame = drawView.bounds
+      drawView.addSubview(pinchPanRotateViewController.view)
+      vwContainer.addSubview(drawView)
+    }
   }
 }
 
@@ -192,16 +199,13 @@ extension StoryViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if indexPath.item < storyPresenter.stories.count {
       let dataPng = storyPresenter.stories[indexPath.item].storyContent
+      self.story = storyPresenter.stories[indexPath.item]
       imgBg.image = UIImage(data: dataPng)
       hideEditorContents()
-      removeContentDraw()
     } else {
-      imgBg.image = UIImage()
-      lblEditor.isHidden = false
-      btnApplyBg.isHidden = false
       defaultContainerView()
-      addContentDraw()
     }
+    removeContentDraw()
   }
 }
 
@@ -209,6 +213,7 @@ extension StoryViewController: UICollectionViewDelegate {
 extension StoryViewController {
   @objc private func didTapBtnBrowsePicture(_ sender: UIButton) {
     if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+      addContentDraw()
       imagePicker.delegate = self
       imagePicker.sourceType = .photoLibrary
       imagePicker.allowsEditing = false
@@ -219,10 +224,12 @@ extension StoryViewController {
   }
   
   @objc private func didTapBtnEnableDraw(_ sender: UIButton) {
+    addContentDraw()
     drawView.isEnabled = !drawView.isEnabled
   }
   
   @objc private func didTapBtnAddText(_ sender: UIButton) {
+    addContentDraw()
     let textview = HelperUI.setDefaultTextview()
     textview.delegate = self
     pinchPanRotateViewController.addSubViews(textview, controller: self)

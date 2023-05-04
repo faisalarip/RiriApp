@@ -42,8 +42,12 @@ public final class StoryPresenter {
     story: StoryModel,
     isLoad: @escaping(Bool) -> Void,
     completion: @escaping(ResponseResult<Bool, String>) -> Void) {
-    
-      stories.append(story)
+      
+      if let index = stories.firstIndex(where: { $0.id == story.id }) {
+        stories[index] = story
+      } else {
+        stories.append(story)
+      }
       
       storyInteractor.setStories(stories)
       .observeOn(MainScheduler.instance)
