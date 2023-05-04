@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController" customModule="RiriApp" customModuleProvider="target">
+            <connections>
+                <outlet property="btnCreate" destination="ItQ-vB-43f" id="E9x-yG-Lb1"/>
+                <outlet property="tableViewStories" destination="3kf-Uh-1ip" id="M8P-pk-s34"/>
+                <outlet property="view" destination="gLh-FH-psG" id="YMg-Xb-MVl"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="gLh-FH-psG">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="otr-p4-ab2">
+                    <rect key="frame" x="16" y="83" width="361" height="711"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stories" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvJ-Fg-NtT">
+                            <rect key="frame" x="0.0" y="0.0" width="361" height="28.666666666666668"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="3kf-Uh-1ip">
+                            <rect key="frame" x="0.0" y="52.666666666666686" width="361" height="578.33333333333326"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </tableView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ItQ-vB-43f">
+                            <rect key="frame" x="0.0" y="655" width="361" height="56"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="Noy-2p-eGM"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Create New"/>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="Xms-vL-EpT"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="otr-p4-ab2" firstAttribute="top" secondItem="Xms-vL-EpT" secondAttribute="top" constant="24" id="36E-h7-h4r"/>
+                <constraint firstItem="otr-p4-ab2" firstAttribute="leading" secondItem="Xms-vL-EpT" secondAttribute="leading" constant="16" id="LFk-UG-eIm"/>
+                <constraint firstItem="Xms-vL-EpT" firstAttribute="bottom" secondItem="otr-p4-ab2" secondAttribute="bottom" constant="24" id="O2Y-FD-84i"/>
+                <constraint firstItem="Xms-vL-EpT" firstAttribute="trailing" secondItem="otr-p4-ab2" secondAttribute="trailing" constant="16" id="TqG-Pq-Cv4"/>
+            </constraints>
+            <point key="canvasLocation" x="-764" y="-145"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

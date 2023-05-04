@@ -1,0 +1,899 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		655D4EBB2A02B1AA0029D3AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D4EBA2A02B1AA0029D3AD /* AppDelegate.swift */; };
+		655D4EBD2A02B1AA0029D3AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D4EBC2A02B1AA0029D3AD /* SceneDelegate.swift */; };
+		655D4EC42A02B1AB0029D3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 655D4EC32A02B1AB0029D3AD /* Assets.xcassets */; };
+		655D4EC72A02B1AB0029D3AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 655D4EC52A02B1AB0029D3AD /* LaunchScreen.storyboard */; };
+		655D4ED22A02B1AC0029D3AD /* RiriAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D4ED12A02B1AC0029D3AD /* RiriAppTests.swift */; };
+		655D4EDC2A02B1AC0029D3AD /* RiriAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D4EDB2A02B1AC0029D3AD /* RiriAppUITests.swift */; };
+		655D4EDE2A02B1AC0029D3AD /* RiriAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D4EDD2A02B1AC0029D3AD /* RiriAppUITestsLaunchTests.swift */; };
+		655D4F742A02B3410029D3AD /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 655D4F732A02B3410029D3AD /* Common.framework */; };
+		655D4F752A02B3410029D3AD /* Common.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 655D4F732A02B3410029D3AD /* Common.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		655D4F782A02B3450029D3AD /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 655D4F772A02B3450029D3AD /* Core.framework */; };
+		655D4F792A02B3450029D3AD /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 655D4F772A02B3450029D3AD /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		655D4F7F2A02B4620029D3AD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D4F7D2A02B4620029D3AD /* HomeViewController.swift */; };
+		655D4F802A02B4620029D3AD /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655D4F7E2A02B4620029D3AD /* HomeViewController.xib */; };
+		657532942A02B49100A24659 /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657532922A02B49100A24659 /* StoryViewController.swift */; };
+		657532952A02B49100A24659 /* StoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 657532932A02B49100A24659 /* StoryViewController.xib */; };
+		6575329B2A02B79200A24659 /* StoryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657532992A02B79200A24659 /* StoryTableCell.swift */; };
+		6575329C2A02B79200A24659 /* StoryTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6575329A2A02B79200A24659 /* StoryTableCell.xib */; };
+		657532A32A02BFF700A24659 /* ChildStoryCollectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657532A12A02BFF700A24659 /* ChildStoryCollectCell.swift */; };
+		657532A42A02BFF700A24659 /* ChildStoryCollectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 657532A22A02BFF700A24659 /* ChildStoryCollectCell.xib */; };
+		657532A72A02C63F00A24659 /* StoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657532A62A02C63F00A24659 /* StoryPresenter.swift */; };
+		657532AA2A02C65500A24659 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657532A92A02C65500A24659 /* HomePresenter.swift */; };
+		7B83E16AA5FAD058E4397371 /* Pods_RiriAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF65EE503B2DF6E3B5B96C85 /* Pods_RiriAppTests.framework */; };
+		C14E8C3EF338CB184DBAC852 /* Pods_RiriApp_RiriAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7087D6E40A666DC0361E7028 /* Pods_RiriApp_RiriAppUITests.framework */; };
+		EC77D2455B2EDBD40F9866BE /* Pods_RiriApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 205366564D7896875B27B453 /* Pods_RiriApp.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		655D4ECE2A02B1AC0029D3AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 655D4EAF2A02B1AA0029D3AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 655D4EB62A02B1AA0029D3AD;
+			remoteInfo = RiriApp;
+		};
+		655D4ED82A02B1AC0029D3AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 655D4EAF2A02B1AA0029D3AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 655D4EB62A02B1AA0029D3AD;
+			remoteInfo = RiriApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		655D4F762A02B3420029D3AD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				655D4F752A02B3410029D3AD /* Common.framework in Embed Frameworks */,
+				655D4F792A02B3450029D3AD /* Core.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		17BDD2A02AFD5DAD25654D4B /* Pods-RiriApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiriApp.debug.xcconfig"; path = "Target Support Files/Pods-RiriApp/Pods-RiriApp.debug.xcconfig"; sourceTree = "<group>"; };
+		205366564D7896875B27B453 /* Pods_RiriApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiriApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47F67A2522A99A68E622AE1A /* Pods-RiriApp-RiriAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiriApp-RiriAppUITests.release.xcconfig"; path = "Target Support Files/Pods-RiriApp-RiriAppUITests/Pods-RiriApp-RiriAppUITests.release.xcconfig"; sourceTree = "<group>"; };
+		655D4EB72A02B1AA0029D3AD /* RiriApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiriApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		655D4EBA2A02B1AA0029D3AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		655D4EBC2A02B1AA0029D3AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		655D4EC32A02B1AB0029D3AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		655D4EC62A02B1AB0029D3AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		655D4EC82A02B1AB0029D3AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		655D4ECD2A02B1AC0029D3AD /* RiriAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RiriAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		655D4ED12A02B1AC0029D3AD /* RiriAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiriAppTests.swift; sourceTree = "<group>"; };
+		655D4ED72A02B1AC0029D3AD /* RiriAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RiriAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		655D4EDB2A02B1AC0029D3AD /* RiriAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiriAppUITests.swift; sourceTree = "<group>"; };
+		655D4EDD2A02B1AC0029D3AD /* RiriAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiriAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		655D4F732A02B3410029D3AD /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		655D4F772A02B3450029D3AD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		655D4F7D2A02B4620029D3AD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		655D4F7E2A02B4620029D3AD /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		657532922A02B49100A24659 /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
+		657532932A02B49100A24659 /* StoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoryViewController.xib; sourceTree = "<group>"; };
+		657532992A02B79200A24659 /* StoryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryTableCell.swift; sourceTree = "<group>"; };
+		6575329A2A02B79200A24659 /* StoryTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoryTableCell.xib; sourceTree = "<group>"; };
+		657532A12A02BFF700A24659 /* ChildStoryCollectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildStoryCollectCell.swift; sourceTree = "<group>"; };
+		657532A22A02BFF700A24659 /* ChildStoryCollectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChildStoryCollectCell.xib; sourceTree = "<group>"; };
+		657532A62A02C63F00A24659 /* StoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryPresenter.swift; sourceTree = "<group>"; };
+		657532A92A02C65500A24659 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
+		7087D6E40A666DC0361E7028 /* Pods_RiriApp_RiriAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiriApp_RiriAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		846175336CCEF714122858B2 /* Pods-RiriApp-RiriAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiriApp-RiriAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-RiriApp-RiriAppUITests/Pods-RiriApp-RiriAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		88C1B942D1B095204692839E /* Pods-RiriAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiriAppTests.debug.xcconfig"; path = "Target Support Files/Pods-RiriAppTests/Pods-RiriAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		96683202C5F2F0CAAB7A67F8 /* Pods-RiriAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiriAppTests.release.xcconfig"; path = "Target Support Files/Pods-RiriAppTests/Pods-RiriAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		9B8253B7D1DF9DC4FC045F9E /* Pods-RiriApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiriApp.release.xcconfig"; path = "Target Support Files/Pods-RiriApp/Pods-RiriApp.release.xcconfig"; sourceTree = "<group>"; };
+		AF65EE503B2DF6E3B5B96C85 /* Pods_RiriAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiriAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		655D4EB42A02B1AA0029D3AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				655D4F742A02B3410029D3AD /* Common.framework in Frameworks */,
+				655D4F782A02B3450029D3AD /* Core.framework in Frameworks */,
+				EC77D2455B2EDBD40F9866BE /* Pods_RiriApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		655D4ECA2A02B1AC0029D3AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B83E16AA5FAD058E4397371 /* Pods_RiriAppTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		655D4ED42A02B1AC0029D3AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C14E8C3EF338CB184DBAC852 /* Pods_RiriApp_RiriAppUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		655D4EAE2A02B1AA0029D3AD = {
+			isa = PBXGroup;
+			children = (
+				655D4EB92A02B1AA0029D3AD /* RiriApp */,
+				655D4ED02A02B1AC0029D3AD /* RiriAppTests */,
+				655D4EDA2A02B1AC0029D3AD /* RiriAppUITests */,
+				655D4EB82A02B1AA0029D3AD /* Products */,
+				655D4F722A02B3410029D3AD /* Frameworks */,
+				C6535AA87C4A6E1386290794 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		655D4EB82A02B1AA0029D3AD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				655D4EB72A02B1AA0029D3AD /* RiriApp.app */,
+				655D4ECD2A02B1AC0029D3AD /* RiriAppTests.xctest */,
+				655D4ED72A02B1AC0029D3AD /* RiriAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		655D4EB92A02B1AA0029D3AD /* RiriApp */ = {
+			isa = PBXGroup;
+			children = (
+				657532AB2A02C68000A24659 /* AppDelegate */,
+				657532962A02B73D00A24659 /* Features */,
+				655D4EC32A02B1AB0029D3AD /* Assets.xcassets */,
+				655D4EC52A02B1AB0029D3AD /* LaunchScreen.storyboard */,
+				655D4EC82A02B1AB0029D3AD /* Info.plist */,
+			);
+			path = RiriApp;
+			sourceTree = "<group>";
+		};
+		655D4ED02A02B1AC0029D3AD /* RiriAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				655D4ED12A02B1AC0029D3AD /* RiriAppTests.swift */,
+			);
+			path = RiriAppTests;
+			sourceTree = "<group>";
+		};
+		655D4EDA2A02B1AC0029D3AD /* RiriAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				655D4EDB2A02B1AC0029D3AD /* RiriAppUITests.swift */,
+				655D4EDD2A02B1AC0029D3AD /* RiriAppUITestsLaunchTests.swift */,
+			);
+			path = RiriAppUITests;
+			sourceTree = "<group>";
+		};
+		655D4F722A02B3410029D3AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				655D4F772A02B3450029D3AD /* Core.framework */,
+				655D4F732A02B3410029D3AD /* Common.framework */,
+				205366564D7896875B27B453 /* Pods_RiriApp.framework */,
+				7087D6E40A666DC0361E7028 /* Pods_RiriApp_RiriAppUITests.framework */,
+				AF65EE503B2DF6E3B5B96C85 /* Pods_RiriAppTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		655D4F7A2A02B40B0029D3AD /* ViewScene */ = {
+			isa = PBXGroup;
+			children = (
+				655D4F7C2A02B4490029D3AD /* StoryViewScene */,
+				655D4F7B2A02B4350029D3AD /* HomeViewScene */,
+			);
+			path = ViewScene;
+			sourceTree = "<group>";
+		};
+		655D4F7B2A02B4350029D3AD /* HomeViewScene */ = {
+			isa = PBXGroup;
+			children = (
+				657532A82A02C64400A24659 /* Presenter */,
+				657532C22A03436900A24659 /* Controller */,
+			);
+			path = HomeViewScene;
+			sourceTree = "<group>";
+		};
+		655D4F7C2A02B4490029D3AD /* StoryViewScene */ = {
+			isa = PBXGroup;
+			children = (
+				657532A52A02C4F200A24659 /* Presenter */,
+				657532C12A03435D00A24659 /* Controller */,
+			);
+			path = StoryViewScene;
+			sourceTree = "<group>";
+		};
+		657532962A02B73D00A24659 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				657532972A02B74800A24659 /* ChildView */,
+				655D4F7A2A02B40B0029D3AD /* ViewScene */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		657532972A02B74800A24659 /* ChildView */ = {
+			isa = PBXGroup;
+			children = (
+				657532982A02B75F00A24659 /* Cell */,
+			);
+			path = ChildView;
+			sourceTree = "<group>";
+		};
+		657532982A02B75F00A24659 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				657532992A02B79200A24659 /* StoryTableCell.swift */,
+				657532A12A02BFF700A24659 /* ChildStoryCollectCell.swift */,
+				6575329A2A02B79200A24659 /* StoryTableCell.xib */,
+				657532A22A02BFF700A24659 /* ChildStoryCollectCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		657532A52A02C4F200A24659 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				657532A62A02C63F00A24659 /* StoryPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		657532A82A02C64400A24659 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				657532A92A02C65500A24659 /* HomePresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		657532AB2A02C68000A24659 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				655D4EBA2A02B1AA0029D3AD /* AppDelegate.swift */,
+				655D4EBC2A02B1AA0029D3AD /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		657532C12A03435D00A24659 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				657532922A02B49100A24659 /* StoryViewController.swift */,
+				657532932A02B49100A24659 /* StoryViewController.xib */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		657532C22A03436900A24659 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				655D4F7D2A02B4620029D3AD /* HomeViewController.swift */,
+				655D4F7E2A02B4620029D3AD /* HomeViewController.xib */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		C6535AA87C4A6E1386290794 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				17BDD2A02AFD5DAD25654D4B /* Pods-RiriApp.debug.xcconfig */,
+				9B8253B7D1DF9DC4FC045F9E /* Pods-RiriApp.release.xcconfig */,
+				846175336CCEF714122858B2 /* Pods-RiriApp-RiriAppUITests.debug.xcconfig */,
+				47F67A2522A99A68E622AE1A /* Pods-RiriApp-RiriAppUITests.release.xcconfig */,
+				88C1B942D1B095204692839E /* Pods-RiriAppTests.debug.xcconfig */,
+				96683202C5F2F0CAAB7A67F8 /* Pods-RiriAppTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		655D4EB62A02B1AA0029D3AD /* RiriApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 655D4EE12A02B1AC0029D3AD /* Build configuration list for PBXNativeTarget "RiriApp" */;
+			buildPhases = (
+				95AA0C293C31C141E415613C /* [CP] Check Pods Manifest.lock */,
+				655D4EB32A02B1AA0029D3AD /* Sources */,
+				655D4EB42A02B1AA0029D3AD /* Frameworks */,
+				655D4EB52A02B1AA0029D3AD /* Resources */,
+				655D4F762A02B3420029D3AD /* Embed Frameworks */,
+				B0F483177AA8872EA95E8EA7 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RiriApp;
+			productName = RiriApp;
+			productReference = 655D4EB72A02B1AA0029D3AD /* RiriApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		655D4ECC2A02B1AC0029D3AD /* RiriAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 655D4EE42A02B1AC0029D3AD /* Build configuration list for PBXNativeTarget "RiriAppTests" */;
+			buildPhases = (
+				426C25FB1DCAE23697A9DCBD /* [CP] Check Pods Manifest.lock */,
+				655D4EC92A02B1AC0029D3AD /* Sources */,
+				655D4ECA2A02B1AC0029D3AD /* Frameworks */,
+				655D4ECB2A02B1AC0029D3AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				655D4ECF2A02B1AC0029D3AD /* PBXTargetDependency */,
+			);
+			name = RiriAppTests;
+			productName = RiriAppTests;
+			productReference = 655D4ECD2A02B1AC0029D3AD /* RiriAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		655D4ED62A02B1AC0029D3AD /* RiriAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 655D4EE72A02B1AC0029D3AD /* Build configuration list for PBXNativeTarget "RiriAppUITests" */;
+			buildPhases = (
+				DE60F1D2008045861C1082A3 /* [CP] Check Pods Manifest.lock */,
+				655D4ED32A02B1AC0029D3AD /* Sources */,
+				655D4ED42A02B1AC0029D3AD /* Frameworks */,
+				655D4ED52A02B1AC0029D3AD /* Resources */,
+				DD548FDFD8176DB28480466E /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				655D4ED92A02B1AC0029D3AD /* PBXTargetDependency */,
+			);
+			name = RiriAppUITests;
+			productName = RiriAppUITests;
+			productReference = 655D4ED72A02B1AC0029D3AD /* RiriAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		655D4EAF2A02B1AA0029D3AD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					655D4EB62A02B1AA0029D3AD = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					655D4ECC2A02B1AC0029D3AD = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 655D4EB62A02B1AA0029D3AD;
+					};
+					655D4ED62A02B1AC0029D3AD = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 655D4EB62A02B1AA0029D3AD;
+					};
+				};
+			};
+			buildConfigurationList = 655D4EB22A02B1AA0029D3AD /* Build configuration list for PBXProject "RiriApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 655D4EAE2A02B1AA0029D3AD;
+			productRefGroup = 655D4EB82A02B1AA0029D3AD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				655D4EB62A02B1AA0029D3AD /* RiriApp */,
+				655D4ECC2A02B1AC0029D3AD /* RiriAppTests */,
+				655D4ED62A02B1AC0029D3AD /* RiriAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		655D4EB52A02B1AA0029D3AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6575329C2A02B79200A24659 /* StoryTableCell.xib in Resources */,
+				657532952A02B49100A24659 /* StoryViewController.xib in Resources */,
+				655D4EC72A02B1AB0029D3AD /* LaunchScreen.storyboard in Resources */,
+				657532A42A02BFF700A24659 /* ChildStoryCollectCell.xib in Resources */,
+				655D4EC42A02B1AB0029D3AD /* Assets.xcassets in Resources */,
+				655D4F802A02B4620029D3AD /* HomeViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		655D4ECB2A02B1AC0029D3AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		655D4ED52A02B1AC0029D3AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		426C25FB1DCAE23697A9DCBD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RiriAppTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95AA0C293C31C141E415613C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RiriApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B0F483177AA8872EA95E8EA7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RiriApp/Pods-RiriApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RiriApp/Pods-RiriApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RiriApp/Pods-RiriApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD548FDFD8176DB28480466E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RiriApp-RiriAppUITests/Pods-RiriApp-RiriAppUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RiriApp-RiriAppUITests/Pods-RiriApp-RiriAppUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RiriApp-RiriAppUITests/Pods-RiriApp-RiriAppUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE60F1D2008045861C1082A3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RiriApp-RiriAppUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		655D4EB32A02B1AA0029D3AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				657532942A02B49100A24659 /* StoryViewController.swift in Sources */,
+				655D4EBB2A02B1AA0029D3AD /* AppDelegate.swift in Sources */,
+				6575329B2A02B79200A24659 /* StoryTableCell.swift in Sources */,
+				657532A32A02BFF700A24659 /* ChildStoryCollectCell.swift in Sources */,
+				657532A72A02C63F00A24659 /* StoryPresenter.swift in Sources */,
+				655D4EBD2A02B1AA0029D3AD /* SceneDelegate.swift in Sources */,
+				655D4F7F2A02B4620029D3AD /* HomeViewController.swift in Sources */,
+				657532AA2A02C65500A24659 /* HomePresenter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		655D4EC92A02B1AC0029D3AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				655D4ED22A02B1AC0029D3AD /* RiriAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		655D4ED32A02B1AC0029D3AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				655D4EDE2A02B1AC0029D3AD /* RiriAppUITestsLaunchTests.swift in Sources */,
+				655D4EDC2A02B1AC0029D3AD /* RiriAppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		655D4ECF2A02B1AC0029D3AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 655D4EB62A02B1AA0029D3AD /* RiriApp */;
+			targetProxy = 655D4ECE2A02B1AC0029D3AD /* PBXContainerItemProxy */;
+		};
+		655D4ED92A02B1AC0029D3AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 655D4EB62A02B1AA0029D3AD /* RiriApp */;
+			targetProxy = 655D4ED82A02B1AC0029D3AD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		655D4EC52A02B1AB0029D3AD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				655D4EC62A02B1AB0029D3AD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		655D4EDF2A02B1AC0029D3AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		655D4EE02A02B1AC0029D3AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		655D4EE22A02B1AC0029D3AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17BDD2A02AFD5DAD25654D4B /* Pods-RiriApp.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5VHRN5SF2P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RiriApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faisalarip.RiriApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		655D4EE32A02B1AC0029D3AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B8253B7D1DF9DC4FC045F9E /* Pods-RiriApp.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5VHRN5SF2P;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RiriApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faisalarip.RiriApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		655D4EE52A02B1AC0029D3AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 88C1B942D1B095204692839E /* Pods-RiriAppTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5VHRN5SF2P;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faisalarip.RiriAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RiriApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RiriApp";
+			};
+			name = Debug;
+		};
+		655D4EE62A02B1AC0029D3AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96683202C5F2F0CAAB7A67F8 /* Pods-RiriAppTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5VHRN5SF2P;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faisalarip.RiriAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RiriApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RiriApp";
+			};
+			name = Release;
+		};
+		655D4EE82A02B1AC0029D3AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 846175336CCEF714122858B2 /* Pods-RiriApp-RiriAppUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5VHRN5SF2P;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faisalarip.RiriAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RiriApp;
+			};
+			name = Debug;
+		};
+		655D4EE92A02B1AC0029D3AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47F67A2522A99A68E622AE1A /* Pods-RiriApp-RiriAppUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5VHRN5SF2P;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.faisalarip.RiriAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RiriApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		655D4EB22A02B1AA0029D3AD /* Build configuration list for PBXProject "RiriApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				655D4EDF2A02B1AC0029D3AD /* Debug */,
+				655D4EE02A02B1AC0029D3AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		655D4EE12A02B1AC0029D3AD /* Build configuration list for PBXNativeTarget "RiriApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				655D4EE22A02B1AC0029D3AD /* Debug */,
+				655D4EE32A02B1AC0029D3AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		655D4EE42A02B1AC0029D3AD /* Build configuration list for PBXNativeTarget "RiriAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				655D4EE52A02B1AC0029D3AD /* Debug */,
+				655D4EE62A02B1AC0029D3AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		655D4EE72A02B1AC0029D3AD /* Build configuration list for PBXNativeTarget "RiriAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				655D4EE82A02B1AC0029D3AD /* Debug */,
+				655D4EE92A02B1AC0029D3AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 655D4EAF2A02B1AA0029D3AD /* Project object */;
+}
