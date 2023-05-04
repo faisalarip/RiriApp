@@ -57,7 +57,11 @@ class HomeViewController: UIViewController {
         print("failed to load data \(error)")
       }
     }
-
+  }
+  
+  private func goToDetailStory(_ story: StoryModel?) {
+    let vc = StoryViewController(story: story)
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 
 }
@@ -77,12 +81,16 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
   }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+    self.goToDetailStory(homePresenter.stories[indexPath.row])
+  }
 }
 
 // MARK: LISTENER ACTIONS
 extension HomeViewController {
   @objc private func didTapBtnCreate(_ sender: UIButton) {
-    let vc = StoryViewController()
-    self.navigationController?.pushViewController(vc, animated: true)
+    self.goToDetailStory(nil)
   }
 }

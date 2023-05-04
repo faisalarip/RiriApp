@@ -30,9 +30,11 @@ class StoryViewController: UIViewController {
   private let pinchPanRotateViewController: PinchPanRotateViewController = PinchPanRotateViewController.shared
   
   private var storyPresenter: StoryPresenter!
+  private var story: StoryModel?
   
-  init() {
+  init(story: StoryModel?) {
     super.init(nibName: "StoryViewController", bundle: Bundle(for: StoryViewController.self))
+    self.story = story
   }
   
   required init?(coder: NSCoder) {
@@ -48,6 +50,16 @@ class StoryViewController: UIViewController {
     loadData()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    defaultContainerView()
+  }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    vwContainer.subviews.forEach { $0.removeFromSuperview() }
+  }
+  
   private func registerPresenter() {
     storyPresenter = StoryPresenter(storyInteractor: StoryInteractor.storyInteractor)
   }
@@ -56,12 +68,15 @@ class StoryViewController: UIViewController {
     drawView = SwiftyDrawView(frame: vwContainer.frame)
     drawView.brush = Brush(color: .white, width: 9, opacity: 1, adjustedWidthFactor: 0, blendMode: .normal)
     drawView.isEnabled = false // by default is false
+    if let story = story {
+      imgBg.image = UIImage(data: story.storyContent)
+      hideEditorContents()
+    }
     
     pinchPanRotateViewController.view.frame = drawView.bounds
     drawView.addSubview(pinchPanRotateViewController.view)
     drawView.isUserInteractionEnabled = true
     vwContainer.isUserInteractionEnabled = true
-    
     vwContainer.addSubview(drawView)
     vwContainer.bringSubviewToFront(drawView)
   }
@@ -69,11 +84,14 @@ class StoryViewController: UIViewController {
   private func setupCollectionView() {
     collectionViewStories.register(UINib(nibName: ChildStoryCollectCell.cellIdentifier, bundle: nil), forCellWithReuseIdentifier: ChildStoryCollectCell.cellIdentifier)
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     layout.itemSize = CGSize(width: 50, height: 50)
-    layout.minimumInteritemSpacing = 0
-    layout.minimumLineSpacing = 0
+    layout.minimumInteritemSpacing = 10
+    layout.minimumLineSpacing = 10
+    layout.scrollDirection = .horizontal
+    collectionViewStories.contentInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     collectionViewStories.collectionViewLayout = layout
+    collectionViewStories.alwaysBounceHorizontal = true
+    collectionViewStories.isPagingEnabled = true
     collectionViewStories.dataSource = self
     collectionViewStories.delegate = self
   }
@@ -124,6 +142,31 @@ class StoryViewController: UIViewController {
     }
 
   }
+  
+  private func defaultContainerView() {
+    vwContainer.backgroundColor = .systemPurple
+  }
+  
+  private func hideEditorContents() {
+    lblEditor.isHidden = true
+    btnApplyBg.isHidden = true
+  }
+  
+  private func removeContentDraw() {
+    vwContainer.subviews.forEach {
+      if $0 == self.drawView {
+        pinchPanRotateViewController.view.subviews.forEach { $0.removeFromSuperview() }
+        drawView.subviews.forEach { $0.removeFromSuperview() }
+        $0.removeFromSuperview()
+      }
+    }
+  }
+  
+  private func addContentDraw() {
+    pinchPanRotateViewController.view.frame = drawView.bounds
+    drawView.addSubview(pinchPanRotateViewController.view)
+    vwContainer.addSubview(drawView)
+  }
 }
 
 // MARK: COLLECTION VIEW DATA SOURCE
@@ -136,6 +179,8 @@ extension StoryViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChildStoryCollectCell.cellIdentifier, for: indexPath) as? ChildStoryCollectCell else { return UICollectionViewCell() }
     if indexPath.item < storyPresenter.stories.count {
       cell.btnAdd.isHidden = true
+    } else {
+      cell.btnAdd.isEnabled = false
     }
     return cell
   }
@@ -144,7 +189,20 @@ extension StoryViewController: UICollectionViewDataSource {
 
 // MARK: COLLECTION VIEW DELEGATE
 extension StoryViewController: UICollectionViewDelegate {
-  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    if indexPath.item < storyPresenter.stories.count {
+      let dataPng = storyPresenter.stories[indexPath.item].storyContent
+      imgBg.image = UIImage(data: dataPng)
+      hideEditorContents()
+      removeContentDraw()
+    } else {
+      imgBg.image = UIImage()
+      lblEditor.isHidden = false
+      btnApplyBg.isHidden = false
+      defaultContainerView()
+      addContentDraw()
+    }
+  }
 }
 
 // MARK: LISTENER ACTIONS
@@ -191,9 +249,7 @@ extension StoryViewController: UINavigationControllerDelegate, UIImagePickerCont
         let imgView = HelperUI.setDefaultImageView(image, pinchPanRotateViewController.view)
         pinchPanRotateViewController.addSubViews(imgView, controller: self)
       } else {
-        lblEditor.isHidden = true
-        btnApplyBg.isHidden = true
-        imgBg.contentMode = .scaleToFill
+        hideEditorContents()
         imgBg.image = image
       }
       drawView.frame = vwContainer.frame
