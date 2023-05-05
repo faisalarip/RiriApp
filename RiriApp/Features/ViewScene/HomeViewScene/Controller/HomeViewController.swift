@@ -7,8 +7,9 @@
 
 import UIKit
 import Core
+import Common
 
-class HomeViewController: UIViewController {
+class HomeViewController: BaseViewController {
   
   @IBOutlet weak var btnCreate: UIButton!
   @IBOutlet weak var tableViewStories: UITableView!
@@ -47,7 +48,7 @@ class HomeViewController: UIViewController {
   
   private func loadData() {
     homePresenter.reqStories { state in
-      print("isLoad \(state)")
+      self.showDialogProgress(state)
     } completion: { [weak self] result in
       guard let self = self else { return }
       switch result {

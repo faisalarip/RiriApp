@@ -10,7 +10,7 @@ import Common
 import Core
 import SwiftyDraw
 
-class StoryViewController: UIViewController {
+class StoryViewController: BaseViewController {
   
   @IBOutlet weak var btnBack: UIButton!
   @IBOutlet weak var btnAddImage: UIButton!
@@ -105,7 +105,7 @@ class StoryViewController: UIViewController {
   
   private func loadData() {
     storyPresenter.reqStories { state in
-      print("isLoad \(state)")
+      self.showDialogProgress(state)
     } completion: { [weak self] result in
       guard let self = self else { return }
       switch result {
@@ -133,7 +133,7 @@ class StoryViewController: UIViewController {
     }
     
     storyPresenter.saveStories(story: newStory) { state in
-      print("isLoad \(state)")
+      self.showDialogProgress(state)
     } completion: { [weak self] result in
       guard let self = self else { return }
       switch result {
