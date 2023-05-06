@@ -123,6 +123,9 @@ class StoryViewController: BaseViewController {
     vwContainer.layer.render(in: UIGraphicsGetCurrentContext()!)
     let imageWithLines = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
+    let yourViewToData = try? NSKeyedArchiver.archivedData(withRootObject: pinchPanRotateViewController.view.subviews, requiringSecureCoding: false)
+    UserDefaults.standard.setValue(yourViewToData, forKey: "TEST_DATA")
+    removeContentDraw()
     
     var newStory = StoryModel()
     if let story = story {
@@ -224,8 +227,16 @@ extension StoryViewController {
   }
   
   @objc private func didTapBtnEnableDraw(_ sender: UIButton) {
-    addContentDraw()
-    drawView.isEnabled = !drawView.isEnabled
+    // addContentDraw()
+    // drawView.isEnabled = !drawView.isEnabled
+    DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+      let yourViewToData = UserDefaults.standard.data(forKey: "TEST_DATA")
+      if let yourViewFromData = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(yourViewToData ?? Data()) as? [UIView] {
+        // Do what you want with your view
+        yourViewFromData.forEach { self.pinchPanRotateViewController.addSubViews($0, controller: self, isLoadData: true) }
+        self.addContentDraw()
+      }
+    })
   }
   
   @objc private func didTapBtnAddText(_ sender: UIButton) {

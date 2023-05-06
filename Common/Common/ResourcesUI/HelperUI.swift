@@ -28,9 +28,8 @@ public final class HelperUI {
   
   public static func setDefaultTextview() -> UITextView {
     let textView = UITextView()
-    textView.translatesAutoresizingMaskIntoConstraints = true
     textView.isScrollEnabled = false
-    textView.sizeToFit()
+    // textView.sizeToFit()
     textView.font = UIFont.systemFont(ofSize: 24, weight: .medium)
     textView.textAlignment = .left
     textView.textColor = UIColor.white

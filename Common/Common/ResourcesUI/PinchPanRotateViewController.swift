@@ -24,14 +24,18 @@ public final class PinchPanRotateViewController: UIViewController, UIGestureReco
     
   }
   
-  public func addSubViews(_ subView: UIView, controller: UIViewController) {
-    self.view.addSubview(subView)
-    if let textview = subView as? UITextView {
-      textview.frame = CGRect(origin: view.center , size: CGSize(width: 50, height: 50)) // an initial frame
-      textview.delegate = controller as? UITextViewDelegate
+  public func addSubViews(_ subView: UIView, controller: UIViewController, isLoadData: Bool = false) {
+    if !isLoadData {
+      if let textview = subView as? UITextView {
+        textview.frame = CGRect(origin: view.center , size: CGSize(width: 50, height: 50)) // an initial frame
+        textview.delegate = controller as? UITextViewDelegate
+      }
+      subView.center = self.view.center
     }
+    
+    subView.layer.cornerRadius = 16
+    subView.layer.masksToBounds = true
     subView.isUserInteractionEnabled = true
-    subView.center = self.view.center
     
     //add pan gesture
     let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
@@ -47,6 +51,8 @@ public final class PinchPanRotateViewController: UIViewController, UIGestureReco
     let rotate = UIRotationGestureRecognizer.init(target: self, action: #selector(handleRotate(_:)))
     rotate.delegate = self
     subView.addGestureRecognizer(rotate)
+    
+    self.view.addSubview(subView)
   }
   
   @objc func handlePan(_ pan: UIPanGestureRecognizer) {
