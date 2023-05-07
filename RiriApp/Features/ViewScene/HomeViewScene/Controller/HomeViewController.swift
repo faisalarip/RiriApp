@@ -60,8 +60,8 @@ class HomeViewController: BaseViewController {
     }
   }
   
-  private func goToDetailStory(_ story: StoryModel?) {
-    let vc = StoryViewController(story: story)
+  private func goToDetailStory(_ indexPathSelected: IndexPath?) {
+    let vc = StoryViewController(indexPathSelected: indexPathSelected)
     self.navigationController?.pushViewController(vc, animated: true)
   }
 
@@ -85,7 +85,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    self.goToDetailStory(homePresenter.stories[indexPath.row])
+    self.goToDetailStory(indexPath)
   }
 }
 

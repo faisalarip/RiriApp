@@ -13,12 +13,12 @@ public final class StoryInteractor: NSObject {
   
   private let localDataSource = LocalDataSource.shared
   
-  public func retriveStories() -> Observable<[StoryModel]> {
+  public func retriveStories() -> Observable<[StoryContent]> {
     return localDataSource.retriveStories()
       .map { StoryMapper.transformStoryRespToModel(response: $0) }
   }
   
-  public func setStories(_ data: [StoryModel]) -> Observable<Bool> {
+  public func setStories(_ data: [StoryContent]) -> Observable<Bool> {
     let storyResponse = StoryMapper.transformStoryModelToResp(data: data)
     return localDataSource.saveStories(storyResponse)
   }

@@ -14,7 +14,7 @@ public final class HomePresenter {
   private var storyInteractor: StoryInteractor
   private let disposeBag = DisposeBag()
   
-  public var stories: [StoryModel] = []
+  public var stories: [StoryContent] = []
   
   init(storyInteractor: StoryInteractor) {
     self.storyInteractor = storyInteractor

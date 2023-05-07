@@ -7,9 +7,17 @@
 
 import UIKit
 
+public protocol PinchPanRotateViewControllerDelegate: AnyObject {
+  func statePanGesture(_ state: UIGestureRecognizer.State)
+  func statePinchGesture(_ state: UIGestureRecognizer.State)
+  func stateRotateGesture(_ state: UIGestureRecognizer.State)
+}
+
 public final class PinchPanRotateViewController: UIViewController, UIGestureRecognizerDelegate {
   
   public static let shared = PinchPanRotateViewController()
+  
+  public weak var delegate: PinchPanRotateViewControllerDelegate?
   
   private init() {
     super.init(nibName: nil, bundle: nil)
@@ -62,7 +70,7 @@ public final class PinchPanRotateViewController: UIViewController, UIGestureReco
       v.center = CGPoint(x: v.center.x + translation.x, y: v.center.y + translation.y)
       pan.setTranslation(CGPoint.zero, in: self.view)
     }
-    
+    delegate?.statePanGesture(pan.state)
   }
   
   @objc func handlePinch(_ recognizer: UIPinchGestureRecognizer) {
@@ -94,6 +102,7 @@ public final class PinchPanRotateViewController: UIViewController, UIGestureReco
       // view.transform = CGAffineTransformMakeScale(scale, scale)
       view.transform = view.transform.scaledBy(x: scale, y: scale)
       recognizer.scale = 1
+      delegate?.statePinchGesture(recognizer.state)
     }
   }
   
@@ -101,6 +110,7 @@ public final class PinchPanRotateViewController: UIViewController, UIGestureReco
     guard let v = rotate.view else { return }
     v.transform = v.transform.rotated(by: rotate.rotation)
     rotate.rotation = 0
+    delegate?.stateRotateGesture(rotate.state)
   }
   
   public func gestureRecognizer(_: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {

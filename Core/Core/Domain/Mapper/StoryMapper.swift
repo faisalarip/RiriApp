@@ -9,19 +9,25 @@ import Foundation
 import RxSwift
 
 public final class StoryMapper {
-  public static func transformStoryRespToModel(response: [StoryResponse]) -> [StoryModel] {
-    var data: [StoryModel] = []
+  public static func transformStoryRespToModel(response: [StoryContentResponse]) -> [StoryContent] {
+    var storyData: [StoryContent] = []
+    var childData: [ChildStoryContent] = []
+    
     response.forEach {
-      data.append(StoryModel(id: $0.id, storyName: $0.storyName, storyContent: $0.storyContent))
+      childData = $0.childStoryContents.map { ChildStoryContent(id: $0.id, contents: $0.contents) }
+      storyData.append(StoryContent(id: $0.id, storyName: $0.storyName, childStoryContents: childData))
     }
-    return data
+    return storyData
   }
   
-  public static func transformStoryModelToResp(data: [StoryModel]) -> [StoryResponse] {
-    var dataModel: [StoryResponse] = []
+  public static func transformStoryModelToResp(data: [StoryContent]) -> [StoryContentResponse] {
+    var storyData: [StoryContentResponse] = []
+    var childData: [ChildStoryContentResponse] = []
+    
     data.forEach {
-      dataModel.append(StoryResponse(id: $0.id, storyName: $0.storyName, storyContent: $0.storyContent))
+      childData = $0.childStoryContents.map { ChildStoryContentResponse(id: $0.id, contents: $0.contents) }
+      storyData.append(StoryContentResponse(id: $0.id, storyName: $0.storyName, childStoryContents: childData))
     }
-    return dataModel
+    return storyData
   }
 }

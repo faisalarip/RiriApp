@@ -20,7 +20,7 @@ final class LocalDataSource: NSObject {
   private override init() {
   }
   
-  public func saveStories(_ storiesData: [StoryResponse]) -> Observable<Bool> {
+  public func saveStories(_ storiesData: [StoryContentResponse]) -> Observable<Bool> {
     return Observable<Bool>.create { observe in
       do {
         let encoder = JSONEncoder()
@@ -35,13 +35,13 @@ final class LocalDataSource: NSObject {
     }
   }
   
-  public func retriveStories() -> Observable<[StoryResponse]> {
-    return Observable<[StoryResponse]>.create { observe in
+  public func retriveStories() -> Observable<[StoryContentResponse]> {
+    return Observable<[StoryContentResponse]>.create { observe in
       do {
         if let data = UserDefaults.standard.data(forKey: "stories_data_key") {
           do {
             let decoder = JSONDecoder()
-            let data = try decoder.decode([StoryResponse].self, from: data)
+            let data = try decoder.decode([StoryContentResponse].self, from: data)
             observe.onNext(data)
           } catch {
             print("Unable to Decode Data (\(error))")

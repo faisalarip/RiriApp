@@ -7,8 +7,14 @@
 
 import Foundation
 
-public struct StoryResponse: Codable {
+public struct StoryContentResponse: Codable {
   public let id: String
   public let storyName: String
-  public let storyContent: Data
+  public let childStoryContents: [ChildStoryContentResponse]
 }
+
+public struct ChildStoryContentResponse: Codable {
+  public let id: String
+  public let contents: Data
+}
+

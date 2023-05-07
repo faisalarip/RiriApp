@@ -13,7 +13,7 @@ public final class StoryPresenter {
   private var storyInteractor: StoryInteractor
   private let disposeBag = DisposeBag()
   
-  public var stories: [StoryModel] = []
+  public var stories: [StoryContent] = []
   
   init(storyInteractor: StoryInteractor) {
     self.storyInteractor = storyInteractor
@@ -39,15 +39,8 @@ public final class StoryPresenter {
   }
   
   func saveStories(
-    story: StoryModel,
     isLoad: @escaping(Bool) -> Void,
     completion: @escaping(ResponseResult<Bool, String>) -> Void) {
-      
-      if let index = stories.firstIndex(where: { $0.id == story.id }) {
-        stories[index] = story
-      } else {
-        stories.append(story)
-      }
       
       storyInteractor.setStories(stories)
       .observeOn(MainScheduler.instance)
@@ -63,4 +56,25 @@ public final class StoryPresenter {
       .disposed(by: disposeBag)
   }
   
+}
+
+extension StoryPresenter {
+  public func addInitalChildStoryData(_ rowSelected: Int) {
+    var childStoryContent: [ChildStoryContent] = []
+    if stories.isEmpty {
+      stories.append(StoryContent(id: UUID().uuidString,
+                                                 storyName: "Story \(stories.count+1)", childStoryContents: [ChildStoryContent(id: UUID().uuidString, contents: Data())]))
+    } else {
+      childStoryContent = stories[rowSelected].childStoryContents
+      childStoryContent.append(ChildStoryContent(id: UUID().uuidString, contents: Data()))
+      stories[rowSelected].childStoryContents = childStoryContent
+    }
+    
+  }
+  
+  public func saveChildStoryData(_ rowSelected: Int,
+                                 _ rowChildSelected: Int,
+                                 _ contentData: Data) {
+    stories[rowSelected].childStoryContents[rowChildSelected].contents = contentData
+  }
 }

@@ -7,16 +7,27 @@
 
 import Foundation
 
-public struct StoryModel {
+public struct StoryContent {
   public init(id: String = "0",
               storyName: String = "",
-              storyContent: Data = Data()) {
+              childStoryContents: [ChildStoryContent] = []) {
     self.id = id
     self.storyName = storyName
-    self.storyContent = storyContent
+    self.childStoryContents = childStoryContents
   }
   
   public var id: String
   public var storyName: String
-  public var storyContent: Data
+  public var childStoryContents: [ChildStoryContent]
+}
+
+public struct ChildStoryContent {
+  public init(id: String = "0",
+              contents: Data = Data()) {
+    self.id = id
+    self.contents = contents
+  }
+  
+  public var id: String
+  public var contents: Data
 }

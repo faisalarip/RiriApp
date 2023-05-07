@@ -30,11 +30,12 @@ class StoryViewController: BaseViewController {
   private let pinchPanRotateViewController: PinchPanRotateViewController = PinchPanRotateViewController.shared
   
   private var storyPresenter: StoryPresenter!
-  private var story: StoryModel?
+  private var indexPathParentSelected: IndexPath?
+  private var currentIndexChildStory: Int = 0
   
-  init(story: StoryModel?) {
+  init(indexPathSelected: IndexPath?) {
     super.init(nibName: "StoryViewController", bundle: Bundle(for: StoryViewController.self))
-    self.story = story
+    self.indexPathParentSelected = indexPathSelected
   }
   
   required init?(coder: NSCoder) {
@@ -56,26 +57,27 @@ class StoryViewController: BaseViewController {
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    vwContainer.subviews.forEach { $0.removeFromSuperview() }
+    removeContentDraw()
   }
   
   private func registerPresenter() {
     storyPresenter = StoryPresenter(storyInteractor: StoryInteractor.storyInteractor)
+    if indexPathParentSelected == nil {
+      storyPresenter.addInitalChildStoryData(0)
+    }
   }
   
   private func setupLayout() {
     drawView = SwiftyDrawView(frame: vwContainer.frame)
     drawView.brush = Brush(color: .white, width: 9, opacity: 1, adjustedWidthFactor: 0, blendMode: .normal)
+    drawView.delegate = self
     drawView.isEnabled = false // by default is false
-    if let story = story {
-      imgBg.image = UIImage(data: story.storyContent)
-      hideEditorContents()
-    }
-    
-    pinchPanRotateViewController.view.frame = drawView.bounds
-    drawView.addSubview(pinchPanRotateViewController.view)
     drawView.isUserInteractionEnabled = true
     vwContainer.isUserInteractionEnabled = true
+    
+    pinchPanRotateViewController.delegate = self
+    pinchPanRotateViewController.view.frame = drawView.bounds
+    drawView.addSubview(pinchPanRotateViewController.view)
     vwContainer.addSubview(drawView)
     vwContainer.bringSubviewToFront(drawView)
   }
@@ -119,29 +121,26 @@ class StoryViewController: BaseViewController {
   }
   
   private func saveData() {
-    UIGraphicsBeginImageContextWithOptions(vwContainer.frame.size, vwContainer.isOpaque, 0.0)
-    vwContainer.layer.render(in: UIGraphicsGetCurrentContext()!)
-    let imageWithLines = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    let yourViewToData = try? NSKeyedArchiver.archivedData(withRootObject: pinchPanRotateViewController.view.subviews, requiringSecureCoding: false)
-    UserDefaults.standard.setValue(yourViewToData, forKey: "TEST_DATA")
-    removeContentDraw()
+//    let image = UIGraphicsImageRenderer(bounds: vwContainer.bounds).image { _ in
+//      vwContainer.drawHierarchy(in: vwContainer.bounds, afterScreenUpdates: true)
+//    }
     
-    var newStory = StoryModel()
-    if let story = story {
-      newStory = StoryModel(id: story.id, storyName: story.storyName, storyContent: imageWithLines?.pngData() ?? Data())
-    } else {
-      newStory = StoryModel(id: UUID().uuidString,
-                            storyName: "Story \(storyPresenter.stories.count+1)", storyContent: imageWithLines?.pngData() ?? Data())
-    }
+//    DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+//      let yourViewToData = UserDefaults.standard.data(forKey: "TEST_DATA")
+//      if let yourViewFromData = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(yourViewToData ?? Data()) as? [UIView] {
+//        // Do what you want with your view
+//        yourViewFromData.forEach { self.pinchPanRotateViewController.addSubViews($0, controller: self, isLoadData: true) }
+//        self.addContentDraw()
+//      }
+//    })
     
-    storyPresenter.saveStories(story: newStory) { state in
+    storyPresenter.saveStories { state in
       self.showDialogProgress(state)
     } completion: { [weak self] result in
       guard let self = self else { return }
       switch result {
       case .Success(_):
-        self.loadData()
+        self.navigationController?.popViewController(animated: true)
       case .Error(let error):
         print("failed to save data \(error)")
       }
@@ -149,8 +148,21 @@ class StoryViewController: BaseViewController {
 
   }
   
+  private func saveTemporaryChildStoryContents(childIndex: Int) {
+    let rowSelected = indexPathParentSelected?.row ?? 0
+    
+    if imgBg.image != UIImage() ||
+        !drawView.drawItems.isEmpty ||
+        !pinchPanRotateViewController.view.subviews.isEmpty {
+      var contentSubviews: [UIView] = [imgBg, drawView]
+      contentSubviews.append(contentsOf: pinchPanRotateViewController.view.subviews)
+      let contentData = (try? NSKeyedArchiver.archivedData(withRootObject: contentSubviews, requiringSecureCoding: false)) ?? Data()
+      
+      storyPresenter.saveChildStoryData(rowSelected, childIndex, contentData)
+    }
+  }
+  
   private func defaultContainerView() {
-    self.story = nil
     imgBg.image = UIImage()
     lblEditor.isHidden = false
     btnApplyBg.isHidden = false
@@ -182,15 +194,17 @@ class StoryViewController: BaseViewController {
 // MARK: COLLECTION VIEW DATA SOURCE
 extension StoryViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return storyPresenter.stories.count + 1
+    let rowSelected = indexPathParentSelected?.row ?? 0
+    return storyPresenter.stories[rowSelected].childStoryContents.count + 1
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChildStoryCollectCell.cellIdentifier, for: indexPath) as? ChildStoryCollectCell else { return UICollectionViewCell() }
-    if indexPath.item < storyPresenter.stories.count {
-      cell.btnAdd.isHidden = true
+    let rowSelected = indexPathParentSelected?.row ?? 0
+    if indexPath.item == storyPresenter.stories[rowSelected].childStoryContents.count {
+      cell.btnAdd.isHidden = false
     } else {
-      cell.btnAdd.isEnabled = false
+      cell.btnAdd.isHidden = true
     }
     return cell
   }
@@ -200,16 +214,30 @@ extension StoryViewController: UICollectionViewDataSource {
 // MARK: COLLECTION VIEW DELEGATE
 extension StoryViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    if indexPath.item < storyPresenter.stories.count {
-      let dataPng = storyPresenter.stories[indexPath.item].storyContent
-      self.story = storyPresenter.stories[indexPath.item]
-      imgBg.image = UIImage(data: dataPng)
-      hideEditorContents()
-    } else {
+    
+    let rowSelected = indexPathParentSelected?.row ?? 0
+    let childStoryContents = storyPresenter.stories[rowSelected].childStoryContents
+    
+    if indexPath.item == storyPresenter.stories[rowSelected].childStoryContents.count {
+      storyPresenter.addInitalChildStoryData(rowSelected)
       defaultContainerView()
+    } else {
+      if childStoryContents[indexPath.item].contents != Data() {
+        // load temporary child contents data
+      } else {
+        // hideEditorContents()
+        currentIndexChildStory = indexPath.item
+      }
     }
+    
+    collectionView.reloadData()
     removeContentDraw()
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    
+  }
+  
 }
 
 // MARK: LISTENER ACTIONS
@@ -227,16 +255,8 @@ extension StoryViewController {
   }
   
   @objc private func didTapBtnEnableDraw(_ sender: UIButton) {
-    // addContentDraw()
-    // drawView.isEnabled = !drawView.isEnabled
-    DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-      let yourViewToData = UserDefaults.standard.data(forKey: "TEST_DATA")
-      if let yourViewFromData = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(yourViewToData ?? Data()) as? [UIView] {
-        // Do what you want with your view
-        yourViewFromData.forEach { self.pinchPanRotateViewController.addSubViews($0, controller: self, isLoadData: true) }
-        self.addContentDraw()
-      }
-    })
+    addContentDraw()
+    drawView.isEnabled = !drawView.isEnabled
   }
   
   @objc private func didTapBtnAddText(_ sender: UIButton) {
@@ -296,4 +316,46 @@ extension StoryViewController: UITextViewDelegate {
     return true
   }
   
+}
+
+extension StoryViewController: SwiftyDrawViewDelegate {
+  func swiftyDraw(shouldBeginDrawingIn drawingView: SwiftyDraw.SwiftyDrawView, using touch: UITouch) -> Bool {
+    return true
+  }
+  
+  func swiftyDraw(didBeginDrawingIn drawingView: SwiftyDraw.SwiftyDrawView, using touch: UITouch) {
+  }
+  
+  func swiftyDraw(isDrawingIn drawingView: SwiftyDraw.SwiftyDrawView, using touch: UITouch) {
+  }
+  
+  func swiftyDraw(didFinishDrawingIn drawingView: SwiftyDraw.SwiftyDrawView, using touch: UITouch) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+      self.saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
+    })
+  }
+  
+  func swiftyDraw(didCancelDrawingIn drawingView: SwiftyDraw.SwiftyDrawView, using touch: UITouch) {
+  }
+  
+}
+
+extension StoryViewController: PinchPanRotateViewControllerDelegate {
+  func statePanGesture(_ state: UIGestureRecognizer.State) {
+    if state == .ended {
+      saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
+    }
+  }
+  
+  func statePinchGesture(_ state: UIGestureRecognizer.State) {
+    if state == .ended {
+      saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
+    }
+  }
+  
+  func stateRotateGesture(_ state: UIGestureRecognizer.State) {
+    if state == .ended {
+      saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
+    }
+  }
 }
