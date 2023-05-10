@@ -23,7 +23,7 @@ public final class HomePresenter {
   func reqStories(
     isLoad: @escaping(Bool) -> Void,
     completion: @escaping(ResponseResult<Void, String>) -> Void) {
-    
+      isLoad(true)
       storyInteractor.retriveStories()
       .observeOn(MainScheduler.instance)
       .subscribe(

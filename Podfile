@@ -10,6 +10,10 @@ def swifty_draw
   pod 'SwiftyDraw', :git => 'https://github.com/mrazam110/SwiftyDraw.git'
 end
 
+def jg_progress_hud
+  pod 'JGProgressHUD'
+end
+
 workspace 'RiriApp'
 
 target 'RiriApp' do
@@ -17,6 +21,7 @@ target 'RiriApp' do
   use_frameworks!
   swifty_draw
   rx_pods
+  jg_progress_hud
   
   target 'RiriAppTests' do
     inherit! :search_paths
@@ -34,6 +39,7 @@ target 'Common' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   swifty_draw
+  jg_progress_hud
 end
 
 target 'Core' do

@@ -17,5 +17,14 @@ class ChildStoryCollectCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+  
+  public func setupSelectedCell(_ isSelected: Bool) {
+    if isSelected {
+      self.layer.borderWidth = 6
+      self.layer.borderColor = UIColor.white.cgColor
+    } else {
+      self.layer.borderWidth = 0
+    }
+  }
 
 }

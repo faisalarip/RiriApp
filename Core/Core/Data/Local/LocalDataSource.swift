@@ -47,6 +47,8 @@ final class LocalDataSource: NSObject {
             print("Unable to Decode Data (\(error))")
             observe.onNext([])
           }
+        } else {
+          observe.onNext([])
         }
       } catch _ {
         observe.onNext([])

@@ -60,8 +60,8 @@ class HomeViewController: BaseViewController {
     }
   }
   
-  private func goToDetailStory(_ indexPathSelected: IndexPath?) {
-    let vc = StoryViewController(indexPathSelected: indexPathSelected)
+  private func goToDetailStory(_ indexPathSelected: IndexPath?, isCreateNew: Bool) {
+    let vc = StoryViewController(indexPathSelected: indexPathSelected, isCreateNew: isCreateNew)
     self.navigationController?.pushViewController(vc, animated: true)
   }
 
@@ -85,13 +85,13 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    self.goToDetailStory(indexPath)
+    self.goToDetailStory(indexPath, isCreateNew: false)
   }
 }
 
 // MARK: LISTENER ACTIONS
 extension HomeViewController {
   @objc private func didTapBtnCreate(_ sender: UIButton) {
-    self.goToDetailStory(nil)
+    self.goToDetailStory(IndexPath(row: homePresenter.stories.count, section: 0), isCreateNew: true)
   }
 }

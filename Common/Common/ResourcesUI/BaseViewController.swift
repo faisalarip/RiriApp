@@ -6,40 +6,51 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 open class BaseViewController: UIViewController {
   
   open override func viewDidLoad() {
     super.viewDidLoad()
   }
-  
-  private func showActivityIndicator() {
-    var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+  private lazy var loadingDialog: JGProgressHUD = {
+    let progressDialog = JGProgressHUD(style: .dark)
+    progressDialog.backgroundColor = UIColor.black.withAlphaComponent(0.80)
+    progressDialog.contentView.backgroundColor = .clear
+    progressDialog.hudView.backgroundColor = .clear
+    progressDialog.indicatorView?.backgroundColor = .clear
     
-    activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-    activityIndicator.backgroundColor = UIColor(red:0.16, green:0.17, blue:0.21, alpha:1)
-    activityIndicator.layer.cornerRadius = 6
-    activityIndicator.center = self.view.center
-    activityIndicator.hidesWhenStopped = true
-    activityIndicator.style = UIActivityIndicatorView.Style.large
-    activityIndicator.tag = 1
-    view.addSubview(activityIndicator)
-    activityIndicator.startAnimating()
-    view.isUserInteractionEnabled = false
+    for subview in progressDialog.hudView.subviews {
+      for blurView in subview.subviews where blurView is UIVisualEffectView {
+        if let blurEffect = blurView as? UIVisualEffectView {
+          blurEffect.effect = .none
+        }
+        break
+      }
+    }
+    
+    return progressDialog
+  }()
+  
+  private func showProgressDialog() {
+    DispatchQueue.main.async {
+      self.loadingDialog.show(in: self.view, animated: true)
+      UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
   }
   
-  private func hideActivityIndicator() {
-    let activityIndicator = view.viewWithTag(1) as? UIActivityIndicatorView
-    activityIndicator?.stopAnimating()
-    activityIndicator?.removeFromSuperview()
-    view.isUserInteractionEnabled = true
+  private func hideProgressDialog() {
+    DispatchQueue.main.async {
+      self.loadingDialog.dismiss(animated: true)
+      UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
   }
   
   public func showDialogProgress(_ state: Bool) {
     if state {
-      showActivityIndicator()
+      showProgressDialog()
     } else {
-      hideActivityIndicator()
+      hideProgressDialog()
     }
   }
   

@@ -1,4 +1,5 @@
 PODS:
+  - JGProgressHUD (2.2)
   - RxCocoa (5.1.3):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -8,12 +9,14 @@ PODS:
   - SwiftyDraw (2.4.1)
 
 DEPENDENCIES:
+  - JGProgressHUD
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
   - SwiftyDraw (from `https://github.com/mrazam110/SwiftyDraw.git`)
 
 SPEC REPOS:
   trunk:
+    - JGProgressHUD
     - RxCocoa
     - RxRelay
     - RxSwift
@@ -28,11 +31,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/mrazam110/SwiftyDraw.git
 
 SPEC CHECKSUMS:
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SwiftyDraw: da4c80dd65fb5e1ca9c7a55f7301725f36e32d4a
 
-PODFILE CHECKSUM: 5a439dc038b191466364aed57828a31b11e55fa6
+PODFILE CHECKSUM: 8fd9a847bad365587e9b1a0245c5197ec307ef6a
 
 COCOAPODS: 1.12.0

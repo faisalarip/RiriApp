@@ -32,15 +32,30 @@ public final class PinchPanRotateViewController: UIViewController, UIGestureReco
     
   }
   
+  public override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    let window = view.window!
+    let gr0 = window.gestureRecognizers![0] as UIGestureRecognizer
+    let gr1 = window.gestureRecognizers![1] as UIGestureRecognizer
+    gr0.delaysTouchesBegan = false
+    gr1.delaysTouchesBegan = false
+  }
+  
+  public override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+      return .all
+  }
+  
   public func addSubViews(_ subView: UIView, controller: UIViewController, isLoadData: Bool = false) {
     if !isLoadData {
       if let textview = subView as? UITextView {
         textview.frame = CGRect(origin: view.center , size: CGSize(width: 50, height: 50)) // an initial frame
-        textview.delegate = controller as? UITextViewDelegate
       }
       subView.center = self.view.center
     }
     
+    if let textview = subView as? UITextView {
+      textview.delegate = controller as? UITextViewDelegate
+    }
     subView.layer.cornerRadius = 16
     subView.layer.masksToBounds = true
     subView.isUserInteractionEnabled = true
@@ -102,7 +117,7 @@ public final class PinchPanRotateViewController: UIViewController, UIGestureReco
       // view.transform = CGAffineTransformMakeScale(scale, scale)
       view.transform = view.transform.scaledBy(x: scale, y: scale)
       recognizer.scale = 1
-      delegate?.statePinchGesture(recognizer.state)
+      delegate?.statePanGesture(recognizer.state)
     }
   }
   
@@ -110,7 +125,7 @@ public final class PinchPanRotateViewController: UIViewController, UIGestureReco
     guard let v = rotate.view else { return }
     v.transform = v.transform.rotated(by: rotate.rotation)
     rotate.rotation = 0
-    delegate?.stateRotateGesture(rotate.state)
+    delegate?.statePanGesture(rotate.state)
   }
   
   public func gestureRecognizer(_: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {

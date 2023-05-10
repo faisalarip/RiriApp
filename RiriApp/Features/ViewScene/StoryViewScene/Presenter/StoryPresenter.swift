@@ -22,7 +22,7 @@ public final class StoryPresenter {
   func reqStories(
     isLoad: @escaping(Bool) -> Void,
     completion: @escaping(ResponseResult<Void, String>) -> Void) {
-    
+      isLoad(true)
       storyInteractor.retriveStories()
       .observeOn(MainScheduler.instance)
       .subscribe(
@@ -41,7 +41,7 @@ public final class StoryPresenter {
   func saveStories(
     isLoad: @escaping(Bool) -> Void,
     completion: @escaping(ResponseResult<Bool, String>) -> Void) {
-      
+      isLoad(true)
       storyInteractor.setStories(stories)
       .observeOn(MainScheduler.instance)
       .subscribe(
@@ -59,15 +59,16 @@ public final class StoryPresenter {
 }
 
 extension StoryPresenter {
-  public func addInitalChildStoryData(_ rowSelected: Int) {
+  public func addInitalChildStoryData(_ isChildStory: Bool,_ rowSelected: Int) {
     var childStoryContent: [ChildStoryContent] = []
-    if stories.isEmpty {
-      stories.append(StoryContent(id: UUID().uuidString,
-                                                 storyName: "Story \(stories.count+1)", childStoryContents: [ChildStoryContent(id: UUID().uuidString, contents: Data())]))
-    } else {
+    
+    if isChildStory {
       childStoryContent = stories[rowSelected].childStoryContents
       childStoryContent.append(ChildStoryContent(id: UUID().uuidString, contents: Data()))
       stories[rowSelected].childStoryContents = childStoryContent
+    } else {
+      stories.append(StoryContent(id: UUID().uuidString,
+                                                 storyName: "Story \(stories.count+1)", childStoryContents: [ChildStoryContent(id: UUID().uuidString, contents: Data())]))
     }
     
   }

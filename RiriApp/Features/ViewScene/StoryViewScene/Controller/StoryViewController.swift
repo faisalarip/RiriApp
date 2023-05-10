@@ -32,10 +32,12 @@ class StoryViewController: BaseViewController {
   private var storyPresenter: StoryPresenter!
   private var indexPathParentSelected: IndexPath?
   private var currentIndexChildStory: Int = 0
+  private var isCreateNew: Bool = false
   
-  init(indexPathSelected: IndexPath?) {
+  init(indexPathSelected: IndexPath?, isCreateNew: Bool) {
     super.init(nibName: "StoryViewController", bundle: Bundle(for: StoryViewController.self))
     self.indexPathParentSelected = indexPathSelected
+    self.isCreateNew = isCreateNew
   }
   
   required init?(coder: NSCoder) {
@@ -53,17 +55,28 @@ class StoryViewController: BaseViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    
+    let window = view.window!
+    let gr0 = window.gestureRecognizers![0] as UIGestureRecognizer
+    let gr1 = window.gestureRecognizers![1] as UIGestureRecognizer
+    gr0.delaysTouchesBegan = false
+    gr1.delaysTouchesBegan = false
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     removeContentDraw()
+    vwContainer.removeFromSuperview()
+  }
+  
+  open override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+      return .all
   }
   
   private func registerPresenter() {
     storyPresenter = StoryPresenter(storyInteractor: StoryInteractor.storyInteractor)
-    if indexPathParentSelected == nil {
-      storyPresenter.addInitalChildStoryData(0)
+    if storyPresenter.stories.isEmpty {
+      self.storyPresenter.addInitalChildStoryData(false, self.indexPathParentSelected?.row ?? 0)
     }
   }
   
@@ -73,6 +86,7 @@ class StoryViewController: BaseViewController {
     drawView.delegate = self
     drawView.isEnabled = false // by default is false
     drawView.isUserInteractionEnabled = true
+    
     vwContainer.isUserInteractionEnabled = true
     
     pinchPanRotateViewController.delegate = self
@@ -112,7 +126,11 @@ class StoryViewController: BaseViewController {
       guard let self = self else { return }
       switch result {
       case .Success(_):
+        if self.isCreateNew {
+          self.storyPresenter.addInitalChildStoryData(false, self.indexPathParentSelected?.row ?? 0)
+        }
         self.collectionViewStories.reloadData()
+        self.loadChildStoryContentDrafts(self.storyPresenter.stories[self.indexPathParentSelected?.row ?? 0].childStoryContents[0])
       case .Error(let error):
         print("failed load data \(error)")
       }
@@ -133,6 +151,7 @@ class StoryViewController: BaseViewController {
 //        self.addContentDraw()
 //      }
 //    })
+    // self.saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
     
     storyPresenter.saveStories { state in
       self.showDialogProgress(state)
@@ -148,25 +167,72 @@ class StoryViewController: BaseViewController {
 
   }
   
-  private func saveTemporaryChildStoryContents(childIndex: Int) {
+  private func saveTemporaryChildStoryContents(childIndex: Int, completion: @escaping() -> Void) {
     let rowSelected = indexPathParentSelected?.row ?? 0
     
-    if imgBg.image != UIImage() ||
+    if imgBg.image != nil ||
         !drawView.drawItems.isEmpty ||
         !pinchPanRotateViewController.view.subviews.isEmpty {
+      self.showDialogProgress(true)
+      
+      // compress an image size
+      imgBg.image = HelperUI.resizeImage(image: imgBg.image ?? UIImage())
+      pinchPanRotateViewController.view.subviews.forEach({
+        if let imgView = $0 as? UIImageView {
+          imgView.image = HelperUI.resizeImage(image: imgView.image ?? UIImage())
+        }
+      })
+      
       var contentSubviews: [UIView] = [imgBg, drawView]
       contentSubviews.append(contentsOf: pinchPanRotateViewController.view.subviews)
-      let contentData = (try? NSKeyedArchiver.archivedData(withRootObject: contentSubviews, requiringSecureCoding: false)) ?? Data()
-      
-      storyPresenter.saveChildStoryData(rowSelected, childIndex, contentData)
+      contentSubviews.forEach { $0.accessibilityValue = "\(childIndex)" }
+      do {
+        let contentData = try NSKeyedArchiver.archivedData(withRootObject: contentSubviews, requiringSecureCoding: false)
+        
+        self.storyPresenter.saveChildStoryData(rowSelected, childIndex, contentData)
+        self.showDialogProgress(false)
+        completion()
+      } catch let err {
+        print(" error archived data \(err.localizedDescription)")
+      }
+    } else {
+      completion()
+    }
+  }
+  
+  private func loadChildStoryContentDrafts(_ content: ChildStoryContent) {
+    if content.contents == Data() {
+      defaultContainerView()
+    } else {
+      DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [weak self] in
+        guard let self = self else { return }
+        if let contentViewDrafts = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(content.contents) as? [UIView] {
+          self.removeContentDraw()
+          self.setupLayout()
+          self.showDialogProgress(true)
+          self.imgBg.image = HelperUI.getDraftBackgroundContent(contentViewDrafts).image
+          self.drawView = HelperUI.getDraftDrawContent(contentViewDrafts)
+          let draftAdditionalContents = HelperUI.getDraftAdditionalContents(contentViewDrafts)
+          draftAdditionalContents.forEach {
+            self.pinchPanRotateViewController.addSubViews($0, controller: self, isLoadData: true)
+          }
+          self.hideEditorContents()
+          self.vwContainer.layoutSubviews()
+          self.view.layoutSubviews()
+          self.showDialogProgress(false)
+        }
+      })
     }
   }
   
   private func defaultContainerView() {
-    imgBg.image = UIImage()
+    self.removeContentDraw()
+    self.setupLayout()
+    imgBg.image = nil
     lblEditor.isHidden = false
     btnApplyBg.isHidden = false
     vwContainer.backgroundColor = .systemPurple
+    self.showDialogProgress(false)
   }
   
   private func hideEditorContents() {
@@ -175,19 +241,9 @@ class StoryViewController: BaseViewController {
   }
   
   private func removeContentDraw() {
-    for view in vwContainer.subviews where view == self.drawView {
-      pinchPanRotateViewController.view.subviews.forEach { $0.removeFromSuperview() }
-      drawView.subviews.forEach { $0.removeFromSuperview() }
-      view.removeFromSuperview()
-    }
-  }
-  
-  private func addContentDraw() {
-    for view in vwContainer.subviews where view != self.drawView {
-      pinchPanRotateViewController.view.frame = drawView.bounds
-      drawView.addSubview(pinchPanRotateViewController.view)
-      vwContainer.addSubview(drawView)
-    }
+    imgBg.image = nil
+    pinchPanRotateViewController.view.subviews.forEach { $0.removeFromSuperview() }
+    drawView.subviews.forEach { $0.removeFromSuperview() }
   }
 }
 
@@ -204,6 +260,7 @@ extension StoryViewController: UICollectionViewDataSource {
     if indexPath.item == storyPresenter.stories[rowSelected].childStoryContents.count {
       cell.btnAdd.isHidden = false
     } else {
+      cell.setupSelectedCell(self.currentIndexChildStory == indexPath.item)
       cell.btnAdd.isHidden = true
     }
     return cell
@@ -217,25 +274,23 @@ extension StoryViewController: UICollectionViewDelegate {
     
     let rowSelected = indexPathParentSelected?.row ?? 0
     let childStoryContents = storyPresenter.stories[rowSelected].childStoryContents
-    
-    if indexPath.item == storyPresenter.stories[rowSelected].childStoryContents.count {
-      storyPresenter.addInitalChildStoryData(rowSelected)
-      defaultContainerView()
-    } else {
-      if childStoryContents[indexPath.item].contents != Data() {
-        // load temporary child contents data
+    saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory) {
+      self.currentIndexChildStory = indexPath.item
+      
+      if indexPath.item == self.storyPresenter.stories[rowSelected].childStoryContents.count {
+        self.storyPresenter.addInitalChildStoryData(true, rowSelected)
+        self.defaultContainerView()
       } else {
-        // hideEditorContents()
-        currentIndexChildStory = indexPath.item
+        if childStoryContents[indexPath.item].contents != Data() {
+          self.loadChildStoryContentDrafts(childStoryContents[indexPath.item])
+        } else {
+          // hideEditorContents()
+          self.defaultContainerView()
+        }
       }
+      
+      self.collectionViewStories.reloadData()
     }
-    
-    collectionView.reloadData()
-    removeContentDraw()
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    
   }
   
 }
@@ -244,7 +299,6 @@ extension StoryViewController: UICollectionViewDelegate {
 extension StoryViewController {
   @objc private func didTapBtnBrowsePicture(_ sender: UIButton) {
     if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-      addContentDraw()
       imagePicker.delegate = self
       imagePicker.sourceType = .photoLibrary
       imagePicker.allowsEditing = false
@@ -255,12 +309,10 @@ extension StoryViewController {
   }
   
   @objc private func didTapBtnEnableDraw(_ sender: UIButton) {
-    addContentDraw()
     drawView.isEnabled = !drawView.isEnabled
   }
   
   @objc private func didTapBtnAddText(_ sender: UIButton) {
-    addContentDraw()
     let textview = HelperUI.setDefaultTextview()
     textview.delegate = self
     pinchPanRotateViewController.addSubViews(textview, controller: self)
@@ -304,7 +356,9 @@ extension StoryViewController: UITextViewDelegate {
     let maxHeight = UIScreen.main.bounds.height - 20
     let newSize = textView.sizeThatFits(CGSize(width: maxWidth, height: maxHeight))
     textView.frame.size = newSize
-    textView.center = pinchPanRotateViewController.view.center
+    if textView.center == .zero {
+      textView.center = pinchPanRotateViewController.view.center
+    }
     self.view.layoutIfNeeded()
   }
   
@@ -330,9 +384,7 @@ extension StoryViewController: SwiftyDrawViewDelegate {
   }
   
   func swiftyDraw(didFinishDrawingIn drawingView: SwiftyDraw.SwiftyDrawView, using touch: UITouch) {
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-      self.saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
-    })
+    // saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory, completion: { } )
   }
   
   func swiftyDraw(didCancelDrawingIn drawingView: SwiftyDraw.SwiftyDrawView, using touch: UITouch) {
@@ -343,19 +395,19 @@ extension StoryViewController: SwiftyDrawViewDelegate {
 extension StoryViewController: PinchPanRotateViewControllerDelegate {
   func statePanGesture(_ state: UIGestureRecognizer.State) {
     if state == .ended {
-      saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
+       // saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory, completion: { } )
     }
   }
   
   func statePinchGesture(_ state: UIGestureRecognizer.State) {
     if state == .ended {
-      saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
+       // saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory, completion: { } )
     }
   }
   
   func stateRotateGesture(_ state: UIGestureRecognizer.State) {
     if state == .ended {
-      saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory)
+       // saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory, completion: { } )
     }
   }
 }
