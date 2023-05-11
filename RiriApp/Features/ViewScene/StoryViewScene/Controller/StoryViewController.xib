@@ -21,6 +21,7 @@
                 <outlet property="lblEditor" destination="O5d-I7-BCt" id="IaZ-Cu-kUO"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="vwContainer" destination="JEw-W8-4W7" id="whU-Xh-sp2"/>
+                <outlet property="vwContainerDraw" destination="ZDI-Kf-uj9" id="tY1-HI-qXk"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -93,6 +94,10 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JEw-W8-4W7">
                             <rect key="frame" x="0.0" y="0.0" width="361" height="527"/>
                             <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZDI-Kf-uj9">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="527"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="deB-1T-NlP">
                                     <rect key="frame" x="0.0" y="0.0" width="361" height="527"/>
                                 </imageView>
@@ -106,10 +111,14 @@
                             <color key="backgroundColor" systemColor="systemPurpleColor"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="deB-1T-NlP" secondAttribute="bottom" id="6J5-2A-UAj"/>
+                                <constraint firstItem="ZDI-Kf-uj9" firstAttribute="top" secondItem="JEw-W8-4W7" secondAttribute="top" id="D9k-tD-F2g"/>
                                 <constraint firstItem="O5d-I7-BCt" firstAttribute="centerY" secondItem="JEw-W8-4W7" secondAttribute="centerY" id="LZL-CQ-Oxc"/>
                                 <constraint firstItem="O5d-I7-BCt" firstAttribute="centerX" secondItem="JEw-W8-4W7" secondAttribute="centerX" id="M9d-PZ-STf"/>
                                 <constraint firstItem="deB-1T-NlP" firstAttribute="top" secondItem="JEw-W8-4W7" secondAttribute="top" id="XAU-Pd-pWP"/>
+                                <constraint firstAttribute="trailing" secondItem="ZDI-Kf-uj9" secondAttribute="trailing" id="bdK-us-Qc2"/>
+                                <constraint firstItem="ZDI-Kf-uj9" firstAttribute="leading" secondItem="JEw-W8-4W7" secondAttribute="leading" id="byX-JR-8Nr"/>
                                 <constraint firstAttribute="trailing" secondItem="deB-1T-NlP" secondAttribute="trailing" id="hG6-ve-x0E"/>
+                                <constraint firstAttribute="bottom" secondItem="ZDI-Kf-uj9" secondAttribute="bottom" id="oxd-K7-40q"/>
                                 <constraint firstItem="deB-1T-NlP" firstAttribute="leading" secondItem="JEw-W8-4W7" secondAttribute="leading" id="wYh-Il-cCz"/>
                             </constraints>
                         </view>

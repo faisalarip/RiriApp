@@ -81,7 +81,7 @@ public final class HelperUI {
     let maxWidth: Float = 400.0
     var imgRatio: Float = actualWidth / actualHeight
     let maxRatio: Float = maxWidth / maxHeight
-    let compressionQuality: Float = 0.5
+    let compressionQuality: Float = 0.7
     //50 percent compression
     
     if actualHeight > maxHeight || actualWidth > maxWidth {
