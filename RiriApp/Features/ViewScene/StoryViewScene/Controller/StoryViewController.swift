@@ -138,8 +138,8 @@ class StoryViewController: BaseViewController {
 
   }
   
-  private func saveData() {
-    self.saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory, completion: {})
+  private func saveDataAllStoryContents() {
+    self.saveChildStoryContents(childIndex: self.currentIndexChildStory, completion: {})
     
     storyPresenter.saveStories { state in
       self.showDialogProgress(state)
@@ -155,7 +155,7 @@ class StoryViewController: BaseViewController {
 
   }
   
-  private func saveTemporaryChildStoryContents(childIndex: Int, completion: @escaping() -> Void) {
+  private func saveChildStoryContents(childIndex: Int, completion: @escaping() -> Void) {
     let rowSelected = indexPathParentSelected?.row ?? 0
     
     if imgBg.image != nil ||
@@ -163,7 +163,7 @@ class StoryViewController: BaseViewController {
         !pinchPanRotateViewController.view.subviews.isEmpty {
       self.showDialogProgress(true)
       
-      var pinchPanRotateViews = pinchPanRotateViewController.view.subviews
+      let pinchPanRotateViews = pinchPanRotateViewController.view.subviews
       drawView.subviews.forEach({ $0.removeFromSuperview() })
       self.view.setNeedsLayout()
       UIGraphicsBeginImageContextWithOptions(vwContainer.frame.size, vwContainer.isOpaque, 0.0)
@@ -183,7 +183,7 @@ class StoryViewController: BaseViewController {
         self.showDialogProgress(false)
         completion()
       } catch let err {
-        print(" error archived data \(err.localizedDescription)")
+        print("error archived data \(err.localizedDescription)")
       }
     } else {
       completion()
@@ -200,7 +200,6 @@ class StoryViewController: BaseViewController {
           self.removeContentDraw()
           
           self.showDialogProgress(true)
-          self.drawView = nil
           self.imgBg.image = HelperUI.getDraftBackgroundContent(contentViewDrafts).image
           let draftAdditionalContents = HelperUI.getDraftAdditionalContents(contentViewDrafts)
           draftAdditionalContents.forEach {
@@ -266,16 +265,20 @@ extension StoryViewController: UICollectionViewDelegate {
     
     let rowSelected = indexPathParentSelected?.row ?? 0
     let childStoryContents = storyPresenter.stories[rowSelected].childStoryContents
-    saveTemporaryChildStoryContents(childIndex: self.currentIndexChildStory) {
+    
+    saveChildStoryContents(childIndex: self.currentIndexChildStory) {
       self.currentIndexChildStory = indexPath.item
       
       if indexPath.item == self.storyPresenter.stories[rowSelected].childStoryContents.count {
+        // an initial child story data
         self.storyPresenter.addInitalChildStoryData(true, rowSelected)
         self.defaultContainerView()
       } else {
         if childStoryContents[indexPath.item].contents != Data() {
+          // load story contents if the contents is not nill
           self.loadChildStoryContentDrafts(childStoryContents[indexPath.item])
         } else {
+          // setup default container for story contents
           self.defaultContainerView()
         }
       }
@@ -312,7 +315,7 @@ extension StoryViewController {
   }
   
   @objc private func didTapBtnDone(_ sender: UIButton) {
-    saveData()
+    saveDataAllStoryContents()
     view.endEditing(true)
   }
   

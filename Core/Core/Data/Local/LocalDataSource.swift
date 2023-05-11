@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RxSwift
 
 public enum ResponseResult <T, F> {
   case Success(T)
@@ -20,40 +19,36 @@ final class LocalDataSource: NSObject {
   private override init() {
   }
   
-  public func saveStories(_ storiesData: [StoryContentResponse]) -> Observable<Bool> {
-    return Observable<Bool>.create { observe in
-      do {
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(storiesData)
-        UserDefaults.standard.set(data, forKey: "stories_data_key")
-        observe.onNext(true)
-      } catch {
-        print("Unable to Encode Data (\(error))")
-        observe.onNext(false)
-      }
-      return Disposables.create()
+  public func saveStories<T: Codable>(_ storiesData: T,
+                                      _ withKey: String,
+                                      completion: @escaping(ResponseResult<Bool, String>) -> Void) {
+    do {
+      let encoder = JSONEncoder()
+      let data = try encoder.encode(storiesData)
+      UserDefaults.standard.set(data, forKey: withKey)
+      completion(.Success(true))
+    } catch {
+      completion(.Error("Unable to Encode Data (\(error))"))
     }
   }
   
-  public func retriveStories() -> Observable<[StoryContentResponse]> {
-    return Observable<[StoryContentResponse]>.create { observe in
-      do {
-        if let data = UserDefaults.standard.data(forKey: "stories_data_key") {
-          do {
-            let decoder = JSONDecoder()
-            let data = try decoder.decode([StoryContentResponse].self, from: data)
-            observe.onNext(data)
-          } catch {
-            print("Unable to Decode Data (\(error))")
-            observe.onNext([])
-          }
-        } else {
-          observe.onNext([])
+  public func retriveStories<T: Codable>(_ objectResponse: T.Type,
+                                         _ withKey: String,
+                                         completion: @escaping(ResponseResult<T, String>) -> Void) {
+    do {
+      if let data = UserDefaults.standard.data(forKey: withKey) {
+        do {
+          let decoder = JSONDecoder()
+          let dataDecode = try decoder.decode(objectResponse, from: data)
+          completion(.Success(dataDecode))
+        } catch {
+          completion(.Error("Unable to Encode Data (\(error))"))
         }
-      } catch _ {
-        observe.onNext([])
+      } else {
+        completion(.Error("failed to retrive a data"))
       }
-      return Disposables.create()
+    } catch let err {
+      completion(.Error("failed to persist data \(err.localizedDescription)"))
     }
   }
 

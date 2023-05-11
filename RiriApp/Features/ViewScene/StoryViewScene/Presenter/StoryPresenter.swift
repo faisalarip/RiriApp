@@ -5,13 +5,11 @@
 //  Created by Tech Dev on 5/3/23.
 //
 import Foundation
-import RxSwift
 import Core
 
 public final class StoryPresenter {
   
   private var storyInteractor: StoryInteractor
-  private let disposeBag = DisposeBag()
   
   public var stories: [StoryContent] = []
   
@@ -23,37 +21,31 @@ public final class StoryPresenter {
     isLoad: @escaping(Bool) -> Void,
     completion: @escaping(ResponseResult<Void, String>) -> Void) {
       isLoad(true)
-      storyInteractor.retriveStories()
-      .observeOn(MainScheduler.instance)
-      .subscribe(
-        onNext: { response in
+      storyInteractor.retriveStories { result in
+        isLoad(false)
+        switch result {
+        case .Success(let response):
           self.stories = response
-          isLoad(false)
           completion(.Success(()))
-        },
-        onError: { error in
-          isLoad(false)
-          completion(.Error(error.localizedDescription))
-        })
-      .disposed(by: disposeBag)
+        case .Error(let error):
+          completion(.Error(error))
+        }
+      }
   }
   
   func saveStories(
     isLoad: @escaping(Bool) -> Void,
     completion: @escaping(ResponseResult<Bool, String>) -> Void) {
       isLoad(true)
-      storyInteractor.setStories(stories)
-      .observeOn(MainScheduler.instance)
-      .subscribe(
-        onNext: { response in
-          isLoad(false)
-          completion(.Success((response)))
-        },
-        onError: { error in
-          isLoad(false)
-          completion(.Error(error.localizedDescription))
-        })
-      .disposed(by: disposeBag)
+      storyInteractor.setStories(stories) { result in
+        isLoad(false)
+        switch result {
+        case .Success(let response):
+          completion(.Success(response))
+        case .Error(let error):
+          completion(.Error(error))
+        }
+      }
   }
   
 }

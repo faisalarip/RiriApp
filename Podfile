@@ -1,11 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '12.0'
 
-def rx_pods
-  pod 'RxSwift', '~> 5'
-  pod 'RxCocoa', '~> 5'
-end
-
 def swifty_draw
   pod 'SwiftyDraw', :git => 'https://github.com/mrazam110/SwiftyDraw.git'
 end
@@ -20,7 +15,6 @@ target 'RiriApp' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   swifty_draw
-  rx_pods
   jg_progress_hud
   
   target 'RiriAppTests' do
@@ -46,7 +40,6 @@ target 'Core' do
   project '../RiriApp/Core/Core'
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  rx_pods
 end
 
 post_install do |installer|

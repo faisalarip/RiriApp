@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RxSwift
 
 public final class StoryMapper {
   public static func transformStoryRespToModel(response: [StoryContentResponse]) -> [StoryContent] {

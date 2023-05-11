@@ -9,6 +9,9 @@ import UIKit
 import SwiftyDraw
 
 public final class HelperUI {
+  
+  public static let HELPER_KEY_STORY_DATA = "stories_data_key"
+  
   public static func setDefaultImageView(_ img: UIImage, _ containerView: UIView) -> UIImageView {
     let imageView = ScaledHeightImageView()
     imageView.contentMode = .scaleAspectFit
@@ -30,7 +33,7 @@ public final class HelperUI {
   public static func setDefaultTextview() -> UITextView {
     let textView = UITextView()
     textView.isScrollEnabled = false
-    // textView.sizeToFit()
+    textView.sizeToFit()
     textView.font = UIFont.systemFont(ofSize: 24, weight: .medium)
     textView.textAlignment = .left
     textView.textColor = UIColor.white
@@ -50,23 +53,13 @@ public final class HelperUI {
     }
   }
   
-  public static func getDraftDrawContent(_ views: [UIView]) -> SwiftyDrawView {
-    if views.isEmpty || views.count < 2 {
-      return SwiftyDrawView()
-    } else {
-      // A second index of draft contents is SwiftyDrawView's content
-      guard let drawContent = views[1] as? SwiftyDrawView else { return SwiftyDrawView() }
-      return drawContent
-    }
-  }
-  
   public static func getDraftAdditionalContents(_ views: [UIView]) -> [UIView] {
     var viewContents: [UIView] = []
-    if views.isEmpty || views.count < 3 {
+    if views.isEmpty || views.count < 2 {
       return []
     } else {
       // A second index..n of draft contents is an additional content, i.e. image, textfield, etc.
-      for index in 2..<views.count {
+      for index in 1..<views.count {
         viewContents.append(views[index])
       }
       return viewContents
