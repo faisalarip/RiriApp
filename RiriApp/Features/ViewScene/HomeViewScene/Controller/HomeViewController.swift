@@ -61,8 +61,10 @@ class HomeViewController: BaseViewController {
   }
   
   private func goToDetailStory(_ indexPathSelected: IndexPath?, isCreateNew: Bool) {
-    let vc = StoryViewController(indexPathSelected: indexPathSelected, isCreateNew: isCreateNew)
-    self.navigationController?.pushViewController(vc, animated: true)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      let vc = StoryViewController(indexPathSelected: indexPathSelected, isCreateNew: isCreateNew)
+      self.navigationController?.pushViewController(vc, animated: true)
+    }
   }
 
 }
@@ -85,6 +87,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
+    self.showDialogProgress(true)
     self.goToDetailStory(indexPath, isCreateNew: false)
   }
 }

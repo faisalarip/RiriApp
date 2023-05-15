@@ -34,6 +34,7 @@ class StoryViewController: BaseViewController {
   private var indexPathParentSelected: IndexPath?
   private var currentIndexChildStory: Int = 0
   private var isCreateNew: Bool = false
+  private var isCenterTextEdit: Bool = false
   
   init(indexPathSelected: IndexPath?, isCreateNew: Bool) {
     super.init(nibName: "StoryViewController", bundle: Bundle(for: StoryViewController.self))
@@ -54,24 +55,10 @@ class StoryViewController: BaseViewController {
     loadData()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    
-    let window = view.window!
-    let gr0 = window.gestureRecognizers![0] as UIGestureRecognizer
-    let gr1 = window.gestureRecognizers![1] as UIGestureRecognizer
-    gr0.delaysTouchesBegan = false
-    gr1.delaysTouchesBegan = false
-  }
-  
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     removeContentDraw()
     vwContainer.removeFromSuperview()
-  }
-  
-  open override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
-      return .all
   }
   
   private func registerPresenter() {
@@ -262,7 +249,7 @@ extension StoryViewController: UICollectionViewDataSource {
 // MARK: COLLECTION VIEW DELEGATE
 extension StoryViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
+    self.showDialogProgress(true)
     let rowSelected = indexPathParentSelected?.row ?? 0
     let childStoryContents = storyPresenter.stories[rowSelected].childStoryContents
     
@@ -311,6 +298,7 @@ extension StoryViewController {
     textview.delegate = self
     pinchPanRotateViewController.addSubViews(textview, controller: self)
     textview.becomeFirstResponder()
+    isCenterTextEdit = !isCenterTextEdit
     self.view.layoutIfNeeded()
   }
   
@@ -350,7 +338,7 @@ extension StoryViewController: UITextViewDelegate {
     let maxHeight = UIScreen.main.bounds.height - 20
     let newSize = textView.sizeThatFits(CGSize(width: maxWidth, height: maxHeight))
     textView.frame.size = newSize
-    if textView.text.isEmpty {
+    if isCenterTextEdit {
       textView.center = pinchPanRotateViewController.view.center
     }
     self.view.layoutIfNeeded()
