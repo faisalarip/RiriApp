@@ -12,18 +12,17 @@ import SwiftyDraw
 
 class StoryViewController: BaseViewController {
   
-  @IBOutlet weak var btnBack: UIButton!
   @IBOutlet weak var btnAddImage: UIButton!
   @IBOutlet weak var btnAddText: UIButton!
   @IBOutlet weak var btnEnableDraw: UIButton!
   @IBOutlet weak var btnSave: UIButton!
   @IBOutlet weak var btnApplyBg: UIButton!
+  @IBOutlet weak var btnDownload: UIButton!
   
   @IBOutlet weak var lblEditor: UILabel!
   @IBOutlet weak var vwContainer: UIView!
   @IBOutlet weak var imgBg: UIImageView!
   @IBOutlet weak var collectionViewStories: UICollectionView!
-  @IBOutlet weak var vwContainerDraw: UIView!
   
   private var imagePicker = UIImagePickerController()
   private var drawView: SwiftyDrawView!
@@ -35,6 +34,7 @@ class StoryViewController: BaseViewController {
   private var currentIndexChildStory: Int = 0
   private var isCreateNew: Bool = false
   private var isCenterTextEdit: Bool = false
+  private var currentTextviewEditing: UITextView?
   
   init(indexPathSelected: IndexPath?, isCreateNew: Bool) {
     super.init(nibName: "StoryViewController", bundle: Bundle(for: StoryViewController.self))
@@ -55,6 +55,15 @@ class StoryViewController: BaseViewController {
     loadData()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    NotificationCenter.default.addObserver( self, selector: #selector(keyboardWillShow(notification:)), name:  UIResponder.keyboardWillShowNotification, object: nil )
+  }
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+  }
+  
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     removeContentDraw()
@@ -69,18 +78,20 @@ class StoryViewController: BaseViewController {
   }
   
   private func setupLayout() {
-    drawView = SwiftyDrawView(frame: vwContainer.frame)
+    drawView = SwiftyDrawView(frame: CGRect(origin: vwContainer.bounds.origin,
+                                            size: CGSize(width: vwContainer.bounds.width,
+                                                         height: vwContainer.bounds.height + btnApplyBg.bounds.height)))
     drawView.brush = Brush(color: .white, width: 9, opacity: 1, adjustedWidthFactor: 0, blendMode: .normal)
     drawView.isEnabled = false // by default is false
     drawView.isUserInteractionEnabled = true
-    
     vwContainer.isUserInteractionEnabled = true
-    vwContainerDraw.isUserInteractionEnabled = true
     
     pinchPanRotateViewController.view.frame = drawView.bounds
     drawView.addSubview(pinchPanRotateViewController.view)
-    vwContainer.addSubview(drawView)
-    vwContainer.bringSubviewToFront(drawView)
+    if !vwContainer.subviews.contains(where: { $0 == drawView }) {
+      vwContainer.addSubview(drawView)
+      vwContainer.bringSubviewToFront(drawView)
+    }
   }
   
   private func setupCollectionView() {
@@ -103,7 +114,7 @@ class StoryViewController: BaseViewController {
     btnEnableDraw.addTarget(self, action: #selector(didTapBtnEnableDraw(_:)), for: .touchUpInside)
     btnAddText.addTarget(self, action: #selector(didTapBtnAddText(_:)), for: .touchUpInside)
     btnSave.addTarget(self, action: #selector(didTapBtnDone(_:)), for: .touchUpInside)
-    btnBack.addTarget(self, action: #selector(didTapBtnBack(_:)), for: .touchUpInside)
+    btnDownload.addTarget(self, action: #selector(didTapBtnDownload(_:)), for: .touchUpInside)
   }
   
   private func loadData() {
@@ -142,6 +153,30 @@ class StoryViewController: BaseViewController {
 
   }
   
+  private func downloadAllContents() {
+    let rowSelected = indexPathParentSelected?.row ?? 0
+    self.showDialogProgress(true)
+    
+    // Downloading current page
+    if imgBg.image != nil ||
+        !drawView.drawItems.isEmpty ||
+        !pinchPanRotateViewController.view.subviews.isEmpty {
+      let image = UIGraphicsImageRenderer(bounds: vwContainer.bounds).image { _ in
+        vwContainer.drawHierarchy(in: vwContainer.bounds, afterScreenUpdates: true)
+      }
+      UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+    
+    storyPresenter.stories[rowSelected].childStoryContents.forEach {
+      if $0.contentLibrary != Data(),
+         let image = UIImage(data: $0.contentLibrary) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+      }
+      self.showDialogProgress(false)
+    }
+    
+  }
+  
   private func saveChildStoryContents(childIndex: Int, completion: @escaping() -> Void) {
     let rowSelected = indexPathParentSelected?.row ?? 0
     
@@ -150,23 +185,27 @@ class StoryViewController: BaseViewController {
         !pinchPanRotateViewController.view.subviews.isEmpty {
       self.showDialogProgress(true)
       
+      let currentPageContent = UIGraphicsImageRenderer(bounds: vwContainer.bounds).image { _ in
+        vwContainer.drawHierarchy(in: vwContainer.bounds, afterScreenUpdates: true)
+      }
+      
       let pinchPanRotateViews = pinchPanRotateViewController.view.subviews
       drawView.subviews.forEach({ $0.removeFromSuperview() })
       self.view.setNeedsLayout()
       UIGraphicsBeginImageContextWithOptions(vwContainer.frame.size, vwContainer.isOpaque, 0.0)
       vwContainer.layer.render(in: UIGraphicsGetCurrentContext()!)
       let imageWithDraw = UIGraphicsGetImageFromCurrentImageContext()
-      
       UIGraphicsEndImageContext()
       imgBg.image = imageWithDraw
       
       var contentSubviews: [UIView] = [imgBg]
       contentSubviews.append(contentsOf: pinchPanRotateViews)
       contentSubviews.forEach { $0.accessibilityValue = "\(childIndex)" }
+      
       do {
         let contentData = try NSKeyedArchiver.archivedData(withRootObject: contentSubviews, requiringSecureCoding: false)
         
-        self.storyPresenter.saveChildStoryData(rowSelected, childIndex, contentData)
+        self.storyPresenter.saveChildStoryData(rowSelected, childIndex, contentData, currentPageContent.pngData() ?? Data())
         self.showDialogProgress(false)
         completion()
       } catch let err {
@@ -185,6 +224,7 @@ class StoryViewController: BaseViewController {
         guard let self = self else { return }
         if let contentViewDrafts = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(content.contents) as? [UIView] {
           self.removeContentDraw()
+          self.hideEditorContents()
           
           self.showDialogProgress(true)
           self.imgBg.image = HelperUI.getDraftBackgroundContent(contentViewDrafts).image
@@ -192,10 +232,7 @@ class StoryViewController: BaseViewController {
           draftAdditionalContents.forEach {
             self.pinchPanRotateViewController.addSubViews($0, controller: self, isLoadData: true)
           }
-          self.setupLayout()
-          self.hideEditorContents()
-          self.vwContainer.layoutSubviews()
-          self.view.layoutSubviews()
+          self.view.layoutIfNeeded()
           self.showDialogProgress(false)
         }
       })
@@ -203,8 +240,8 @@ class StoryViewController: BaseViewController {
   }
   
   private func defaultContainerView() {
-    self.removeContentDraw()
-    self.setupLayout()
+    removeContentDraw()
+    setupLayout()
     imgBg.image = nil
     lblEditor.isHidden = false
     btnApplyBg.isHidden = false
@@ -215,6 +252,8 @@ class StoryViewController: BaseViewController {
   private func hideEditorContents() {
     lblEditor.isHidden = true
     btnApplyBg.isHidden = true
+    setupLayout()
+    self.view.layoutIfNeeded()
   }
   
   private func removeContentDraw() {
@@ -307,8 +346,48 @@ extension StoryViewController {
     view.endEditing(true)
   }
   
-  @objc private func didTapBtnBack(_ sender: UIButton) {
-    self.navigationController?.popViewController(animated: true)
+  @objc private func didTapBtnDownload(_ sender: UIButton) {
+    downloadAllContents()
+    view.endEditing(true)
+  }
+  
+  @objc func keyboardWillShow( notification: Notification) {
+    if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+      var newHeight: CGFloat
+      let duration:TimeInterval = (notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+      let animationCurveRawNSN = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+      let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
+      let animationCurve:UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
+      if #available(iOS 11.0, *) {
+        newHeight = keyboardFrame.cgRectValue.height - self.view.safeAreaInsets.bottom
+      } else {
+        newHeight = keyboardFrame.cgRectValue.height
+      }
+      let keyboardHeight = newHeight - 50
+      UIView.animate(withDuration: duration,
+                     delay: TimeInterval(0),
+                     options: animationCurve,
+                     animations: {
+        if let textView = self.currentTextviewEditing,
+           textView.center.y > newHeight {
+          textView.center.y = keyboardHeight
+        }
+        self.view.layoutIfNeeded() },
+                     completion: nil)
+    }
+  }
+  
+  @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+    if let error = error {
+      // we got back an error!
+      let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+      ac.addAction(UIAlertAction(title: "OK", style: .default))
+      present(ac, animated: true)
+    } else {
+      let ac = UIAlertController(title: "Saved!", message: "Your story contents has been saved to your library.", preferredStyle: .alert)
+      ac.addAction(UIAlertAction(title: "OK", style: .default))
+      present(ac, animated: true)
+    }
   }
 }
 
@@ -338,10 +417,15 @@ extension StoryViewController: UITextViewDelegate {
     let maxHeight = UIScreen.main.bounds.height - 20
     let newSize = textView.sizeThatFits(CGSize(width: maxWidth, height: maxHeight))
     textView.frame.size = newSize
+    self.currentTextviewEditing = textView
     if isCenterTextEdit {
       textView.center = pinchPanRotateViewController.view.center
     }
     self.view.layoutIfNeeded()
+  }
+  
+  func textViewDidBeginEditing(_ textView: UITextView) {
+    self.currentTextviewEditing = textView
   }
   
   func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

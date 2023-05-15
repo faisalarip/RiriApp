@@ -67,7 +67,9 @@ extension StoryPresenter {
   
   public func saveChildStoryData(_ rowSelected: Int,
                                  _ rowChildSelected: Int,
-                                 _ contentData: Data) {
+                                 _ contentData: Data,
+                                 _ contentDataLibrary: Data) {
     stories[rowSelected].childStoryContents[rowChildSelected].contents = contentData
+    stories[rowSelected].childStoryContents[rowChildSelected].contentLibrary = contentDataLibrary
   }
 }

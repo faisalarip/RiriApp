@@ -23,11 +23,14 @@ public struct StoryContent {
 
 public struct ChildStoryContent {
   public init(id: String = "0",
-              contents: Data = Data()) {
+              contents: Data = Data(),
+              contentLibrary: Data = Data()) {
     self.id = id
     self.contents = contents
+    self.contentLibrary = contentLibrary
   }
   
   public var id: String
   public var contents: Data
+  public var contentLibrary: Data
 }
