@@ -10,6 +10,7 @@
 		655D4E992A02AEDE0029D3AD /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 655D4E902A02AEDE0029D3AD /* Core.framework */; };
 		655D4E9E2A02AEDE0029D3AD /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D4E9D2A02AEDE0029D3AD /* CoreTests.swift */; };
 		655D4E9F2A02AEDE0029D3AD /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 655D4E932A02AEDE0029D3AD /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		65719F632A122EF8005E717B /* Common.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65719F622A122EF8005E717B /* Common.framework */; };
 		657532B12A02C78A00A24659 /* StoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657532B02A02C78A00A24659 /* StoryModel.swift */; };
 		657532B32A02C86500A24659 /* LocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657532B22A02C86500A24659 /* LocalDataSource.swift */; };
 		657532B62A02C99000A24659 /* StoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657532B52A02C99000A24659 /* StoryResponse.swift */; };
@@ -35,6 +36,7 @@
 		655D4E932A02AEDE0029D3AD /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		655D4E982A02AEDE0029D3AD /* CoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		655D4E9D2A02AEDE0029D3AD /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
+		65719F622A122EF8005E717B /* Common.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Common.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		657532B02A02C78A00A24659 /* StoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryModel.swift; sourceTree = "<group>"; };
 		657532B22A02C86500A24659 /* LocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataSource.swift; sourceTree = "<group>"; };
 		657532B52A02C99000A24659 /* StoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryResponse.swift; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				921933957D2271CDA838C39E /* Pods_Core.framework in Frameworks */,
+				65719F632A122EF8005E717B /* Common.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +179,7 @@
 		C2D8BB33AA1C97DF7E1F1495 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65719F622A122EF8005E717B /* Common.framework */,
 				E5F713B0DD3C590B555593BA /* Pods_Core.framework */,
 			);
 			name = Frameworks;
