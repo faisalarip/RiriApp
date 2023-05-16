@@ -69,6 +69,7 @@ class HomeViewController: BaseViewController {
 
 }
 
+// MARK: UITABLEVIEW DATA SOURCE & DELEGATE
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return homePresenter.stories.count

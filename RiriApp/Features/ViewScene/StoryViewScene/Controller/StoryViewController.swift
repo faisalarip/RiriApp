@@ -136,6 +136,33 @@ class StoryViewController: BaseViewController {
 
   }
   
+  private func defaultContainerView() {
+    removeContentDraw()
+    setupLayout()
+    imgBg.image = nil
+    lblEditor.isHidden = false
+    btnApplyBg.isHidden = false
+    vwContainer.backgroundColor = .systemPurple
+    self.showDialogProgress(false)
+  }
+  
+  private func hideEditorContents() {
+    lblEditor.isHidden = true
+    btnApplyBg.isHidden = true
+    setupLayout()
+    self.view.layoutIfNeeded()
+  }
+  
+  private func removeContentDraw() {
+    imgBg.image = nil
+    pinchPanRotateViewController.view.subviews.forEach { $0.removeFromSuperview() }
+    drawView.subviews.forEach { $0.removeFromSuperview() }
+    drawView.clear()
+  }
+}
+
+// MARK: SAVE, DOWNLOAD, AND LOAD STORY CONTENTS
+extension StoryViewController {
   private func saveDataAllStoryContents() {
     self.saveChildStoryContents(childIndex: self.currentIndexChildStory, completion: {})
     
@@ -168,9 +195,11 @@ class StoryViewController: BaseViewController {
     }
     
     storyPresenter.stories[rowSelected].childStoryContents.forEach {
-      if $0.contentLibrary != Data(),
-         let image = UIImage(data: $0.contentLibrary) {
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+      if $0.id != storyPresenter.stories[rowSelected].childStoryContents[self.currentIndexChildStory].id { // excluding current page
+        if $0.contentLibrary != Data(),
+           let image = UIImage(data: $0.contentLibrary) {
+          UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        }
       }
       self.showDialogProgress(false)
     }
@@ -237,30 +266,6 @@ class StoryViewController: BaseViewController {
         }
       })
     }
-  }
-  
-  private func defaultContainerView() {
-    removeContentDraw()
-    setupLayout()
-    imgBg.image = nil
-    lblEditor.isHidden = false
-    btnApplyBg.isHidden = false
-    vwContainer.backgroundColor = .systemPurple
-    self.showDialogProgress(false)
-  }
-  
-  private func hideEditorContents() {
-    lblEditor.isHidden = true
-    btnApplyBg.isHidden = true
-    setupLayout()
-    self.view.layoutIfNeeded()
-  }
-  
-  private func removeContentDraw() {
-    imgBg.image = nil
-    pinchPanRotateViewController.view.subviews.forEach { $0.removeFromSuperview() }
-    drawView.subviews.forEach { $0.removeFromSuperview() }
-    drawView.clear()
   }
 }
 
